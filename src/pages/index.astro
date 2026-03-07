@@ -1,0 +1,261 @@
+---
+// src/pages/index.astro
+// 山田ラボ合同会社 (Yamada Lab LLC) コーポレートサイト
+---
+
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>山田ラボ合同会社 | Yamada Lab LLC</title>
+  <meta name="description" content="山田ラボ合同会社（Yamada Lab LLC）のコーポレートサイト。次世代電子認証システムと通信インフラソリューションを提供します。" />
+  <style>
+    /* Tailwind CSS is assumed to be configured in the Astro project */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+    
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Custom animation classes for Intersection Observer */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+    
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .fade-in {
+      opacity: 0;
+      transition: opacity 0.8s ease-out;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+    }
+
+    .slide-right {
+      opacity: 0;
+      transform: translateX(-30px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .slide-right.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-900 text-slate-50 selection:bg-blue-500/30 overflow-x-hidden">
+  
+  <!-- Navigation -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent py-6">
+    <div class="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-400"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2-1 4-2 7-2 2.5 0 4.5 1 6.5 2a1 1 0 0 1 1 1z"/></svg>
+        <span class="text-xl font-bold tracking-tight">Yamada Lab</span>
+      </div>
+      <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+        <a href="#solutions" class="hover:text-blue-400 transition-colors">Solutions</a>
+        <a href="#company" class="hover:text-blue-400 transition-colors">Company</a>
+        <a href="#contact" class="px-5 py-2.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 hover:bg-blue-500/20 transition-all">Contact Us</a>
+      </div>
+      <button id="mobile-menu-btn" class="md:hidden text-slate-300">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+    <!-- Background Effects -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-500/20 rounded-full blur-[120px] opacity-50 pointer-events-none"></div>
+    
+    <div class="max-w-7xl mx-auto px-6 md:px-12 relative z-10 text-center fade-up">
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-8">
+        <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+        <span class="text-sm font-medium text-slate-300 tracking-wide">Border Free & Security</span>
+      </div>
+      <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 leading-tight">
+        世界を、<br class="md:hidden" />
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">一つの認証</span>で繋ぐ。
+      </h1>
+      <p class="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 leading-relaxed">
+        OpenRoaming技術と強固な電子認証基盤により、<br class="hidden md:block" />
+        国境やネットワークの壁を越えたシームレスで安全な通信体験を提供します。
+      </p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="#solutions" class="w-full sm:w-auto px-8 py-4 rounded-full bg-blue-500 hover:bg-blue-600 text-white font-medium transition-all flex items-center justify-center gap-2">
+          ソリューションを見る
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Business Solutions -->
+  <section id="solutions" class="py-32 relative">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+      <div class="mb-16 md:mb-24 text-center md:text-left fade-up">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">Business Solutions</h2>
+        <p class="text-slate-400 max-w-2xl mx-auto md:mx-0">高度なセキュリティと利便性を両立する、次世代のインフラストラクチャを構築します。</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6 md:gap-8">
+        <!-- Solution 1 -->
+        <div class="p-8 rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-sm hover:bg-white/[0.04] transition-colors group fade-up" style="transition-delay: 100ms;">
+          <div class="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center mb-6 border border-blue-500/20 group-hover:border-blue-500/40 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-400"><path d="M5 13a10 10 0 0 1 14 0"/><path d="M8.5 16.5a5 5 0 0 1 7 0"/><path d="M2 8.82a15 15 0 0 1 20 0"/><line x1="12" x2="12.01" y1="20" y2="20"/></svg>
+          </div>
+          <h3 class="text-xl font-bold mb-4">通信インフラ</h3>
+          <p class="text-slate-400 text-sm leading-relaxed mb-6">
+            電気通信事業法に基づく確かな電気通信事業を展開。コンピュータシステムおよび通信ネットワークのインフラ構築、設計、コンサルティングを提供します。
+          </p>
+          <ul class="space-y-2 text-sm text-slate-500">
+            <li class="flex items-center gap-2"><div class="w-1 h-1 rounded-full bg-blue-400"></div>電気通信事業</li>
+            <li class="flex items-center gap-2"><div class="w-1 h-1 rounded-full bg-blue-400"></div>インフラ構築・設計</li>
+            <li class="flex items-center gap-2"><div class="w-1 h-1 rounded-full bg-blue-400"></div>ネットワークコンサルティング</li>
+          </ul>
+        </div>
+
+        <!-- Solution 2 -->
+        <div class="p-8 rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-sm hover:bg-white/[0.04] transition-colors group fade-up" style="transition-delay: 200ms;">
+          <div class="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center mb-6 border border-blue-500/20 group-hover:border-blue-500/40 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-400"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <h3 class="text-xl font-bold mb-4">認証ソリューション</h3>
+          <p class="text-slate-400 text-sm leading-relaxed mb-6">
+            OpenRoamingをはじめとする次世代の電子認証システムの企画、開発、運用及び保守。セキュアでシームレスな接続環境を実現します。
+          </p>
+          <ul class="space-y-2 text-sm text-slate-500">
+            <li class="flex items-center gap-2"><div class="w-1 h-1 rounded-full bg-blue-400"></div>電子認証システム開発</li>
+            <li class="flex items-center gap-2"><div class="w-1 h-1 rounded-full bg-blue-400"></div>OpenRoaming連携</li>
+            <li class="flex items-center gap-2"><div class="w-1 h-1 rounded-full bg-blue-400"></div>セキュリティ保守運用</li>
+          </ul>
+        </div>
+
+        <!-- Solution 3 -->
+        <div class="p-8 rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-sm hover:bg-white/[0.04] transition-colors group fade-up" style="transition-delay: 300ms;">
+          <div class="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center mb-6 border border-blue-500/20 group-hover:border-blue-500/40 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-400"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </div>
+          <h3 class="text-xl font-bold mb-4">システム開発</h3>
+          <p class="text-slate-400 text-sm leading-relaxed mb-6">
+            情報通信システム機器・ソフトウェアの製造、販売。インターネットを利用した情報提供サービスや、先進的なアプリケーションの制作・運営を行います。
+          </p>
+          <ul class="space-y-2 text-sm text-slate-500">
+            <li class="flex items-center gap-2"><div class="w-1 h-1 rounded-full bg-blue-400"></div>ソフトウェア製造・販売</li>
+            <li class="flex items-center gap-2"><div class="w-1 h-1 rounded-full bg-blue-400"></div>アプリ制作・運営</li>
+            <li class="flex items-center gap-2"><div class="w-1 h-1 rounded-full bg-blue-400"></div>情報提供サービス</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Company Profile -->
+  <section id="company" class="py-32 bg-slate-900/50 border-t border-white/5 relative overflow-hidden">
+    <div class="absolute right-0 top-0 w-1/2 h-full bg-gradient-to-l from-blue-900/10 to-transparent pointer-events-none"></div>
+    
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+      <div class="grid md:grid-cols-2 gap-16 items-center">
+        <div class="slide-right">
+          <h2 class="text-3xl md:text-4xl font-bold mb-12">Company Profile</h2>
+          <div class="space-y-8">
+            <div class="flex flex-col border-b border-white/10 pb-6">
+              <span class="text-sm text-slate-500 mb-2 uppercase tracking-wider">社名</span>
+              <span class="text-lg font-medium">山田ラボ合同会社 (Yamada Lab LLC)</span>
+            </div>
+            <div class="flex flex-col border-b border-white/10 pb-6">
+              <span class="text-sm text-slate-500 mb-2 uppercase tracking-wider">代表社員</span>
+              <span class="text-lg font-medium">山田 正樹</span>
+            </div>
+            <div class="flex flex-col border-b border-white/10 pb-6">
+              <span class="text-sm text-slate-500 mb-2 uppercase tracking-wider">所在地</span>
+              <span class="text-lg font-medium leading-relaxed">
+                〒812-0011<br />
+                福岡県福岡市博多区博多駅前1丁目23番2号<br />
+                ParkFront博多駅前1丁目5F-B
+              </span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="relative rounded-3xl overflow-hidden border border-white/10 aspect-square md:aspect-[4/3] bg-slate-800 fade-in" style="transition-delay: 200ms;">
+          <!-- Abstract representation of the company / tech -->
+          <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop')] bg-cover bg-center opacity-40 mix-blend-luminosity"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent"></div>
+          <div class="absolute bottom-8 left-8 right-8">
+            <div class="flex items-center gap-3 mb-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-400"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+              <span class="font-semibold tracking-wider">GLOBAL REACH</span>
+            </div>
+            <p class="text-sm text-slate-400">Fukuoka, Japan to the World.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-12 border-t border-white/10 bg-slate-950">
+    <div class="max-w-7xl mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-500"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2-1 4-2 7-2 2.5 0 4.5 1 6.5 2a1 1 0 0 1 1 1z"/></svg>
+        <span class="text-lg font-bold tracking-tight text-slate-300">Yamada Lab LLC</span>
+      </div>
+      <p class="text-sm text-slate-500">
+        &copy; <span id="year"></span> Yamada Lab LLC. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Set current year
+    document.getElementById('year').textContent = new Date().getFullYear().toString();
+
+    // Navbar scroll effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('bg-slate-900/80', 'backdrop-blur-md', 'border-b', 'border-white/10', 'py-4');
+        navbar.classList.remove('bg-transparent', 'py-6');
+      } else {
+        navbar.classList.add('bg-transparent', 'py-6');
+        navbar.classList.remove('bg-slate-900/80', 'backdrop-blur-md', 'border-b', 'border-white/10', 'py-4');
+      }
+    });
+
+    // Intersection Observer for scroll animations
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target); // Only animate once
+        }
+      });
+    }, observerOptions);
+
+    // Observe all elements with animation classes
+    document.querySelectorAll('.fade-up, .fade-in, .slide-right').forEach(el => {
+      observer.observe(el);
+    });
+    
+    // Trigger initial animation for hero section immediately
+    setTimeout(() => {
+      document.querySelectorAll('.fade-up')[0]?.classList.add('visible');
+    }, 100);
+  </script>
+</body>
+</html>
