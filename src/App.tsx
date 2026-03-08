@@ -110,7 +110,7 @@ export default function App() {
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">一つの認証</span>で繋ぐ。
             </h1>
             <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 leading-relaxed">
-              OpenRoaming技術と強固な電子認証基盤により、<br className="hidden md:block" />
+              OpenRoaming技術と強固な認証基盤により、<br className="hidden md:block" />
               国境やネットワークの壁を越えたシームレスで安全な通信体験を提供します。
             </p>
             <a href="#solutions" className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-blue-500 hover:bg-blue-600 text-white font-medium transition-all">
@@ -148,9 +148,9 @@ export default function App() {
                 <Lock className="w-7 h-7 text-blue-400" />
               </div>
               <h3 className="text-xl font-bold mb-4">認証ソリューション</h3>
-              <p className="text-slate-400 text-sm leading-relaxed mb-6">OpenRoamingをはじめとする次世代の電子認証システムの企画、開発、運用及び保守。セキュアでシームレスな接続環境を実現します。</p>
+              <p className="text-slate-400 text-sm leading-relaxed mb-6">OpenRoamingをはじめとする次世代の認証システムの企画、開発、運用及び保守。セキュアでシームレスな接続環境を実現します。</p>
               <ul className="space-y-2 text-sm text-slate-500">
-                <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-blue-400" />電子認証システム開発</li>
+                <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-blue-400" />認証システム開発</li>
                 <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-blue-400" />OpenRoaming連携</li>
                 <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-blue-400" />セキュリティ保守運用</li>
               </ul>
