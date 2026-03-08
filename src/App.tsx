@@ -45,7 +45,6 @@ export default function App() {
     try {
       const res = await fetch("https://script.google.com/macros/s/AKfycbx-IftvWDli_VrQ-j8T51m9FcJq3KU3A-RdA8BK-WIe3fnj5z7LFaTlauXSYulE97cpGQ/exec", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
