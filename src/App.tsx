@@ -106,7 +106,7 @@ export default function App() {
               <span className="text-sm font-medium text-slate-300 tracking-wide">Border Free & Security</span>
             </div>
             <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 leading-tight">
-              世界を、<br className="md:hidden" />
+              世界を<br className="md:hidden" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">一つの認証</span>で繋ぐ。
             </h1>
             <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 leading-relaxed">
