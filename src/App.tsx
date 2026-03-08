@@ -79,9 +79,9 @@ export default function App() {
             <span className="text-xl font-bold tracking-tight">Yamada Lab</span>
           </div>
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
-            <a href="#solutions" className="hover:text-blue-400 transition-colors">Solutions</a>
-            <a href="#company" className="hover:text-blue-400 transition-colors">Company</a>
-            <a href="#contact" className="px-5 py-2.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 hover:bg-blue-500/20 transition-all">Contact Us</a>
+            <a href="#solutions" className="hover:text-blue-400 transition-colors">ソリューション</a>
+            <a href="#company" className="hover:text-blue-400 transition-colors">会社概要</a>
+            <a href="#contact" className="px-5 py-2.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 hover:bg-blue-500/20 transition-all">お問い合わせ</a>
           </div>
           <button className="md:hidden text-slate-300" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label={mobileMenuOpen ? "メニューを閉じる" : "メニューを開く"}>
             {mobileMenuOpen ? <X /> : <Menu />}
@@ -89,9 +89,9 @@ export default function App() {
         </div>
         {mobileMenuOpen && (
           <div className="md:hidden bg-slate-900/95 backdrop-blur-md border-t border-white/10 px-6 py-4 flex flex-col gap-4 text-sm font-medium text-slate-300">
-            <a href="#solutions" className="hover:text-blue-400 transition-colors" onClick={() => setMobileMenuOpen(false)}>Solutions</a>
-            <a href="#company" className="hover:text-blue-400 transition-colors" onClick={() => setMobileMenuOpen(false)}>Company</a>
-            <a href="#contact" className="text-blue-400" onClick={() => setMobileMenuOpen(false)}>Contact Us</a>
+            <a href="#solutions" className="hover:text-blue-400 transition-colors" onClick={() => setMobileMenuOpen(false)}>ソリューション</a>
+            <a href="#company" className="hover:text-blue-400 transition-colors" onClick={() => setMobileMenuOpen(false)}>会社概要</a>
+            <a href="#contact" className="text-blue-400" onClick={() => setMobileMenuOpen(false)}>お問い合わせ</a>
           </div>
         )}
       </nav>
@@ -109,8 +109,8 @@ export default function App() {
               世界を<br className="md:hidden" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">一つの認証</span>で繋ぐ。
             </h1>
-            <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 leading-relaxed">
-              OpenRoaming技術と強固な認証基盤により、<br className="hidden md:block" />
+            <p className="text-lg md:text-xl text-slate-400 max-w-xl mx-auto mb-12 leading-relaxed">
+              OpenRoaming技術と強固な認証基盤により、
               国境やネットワークの壁を越えたシームレスで安全な通信体験を提供します。
             </p>
             <a href="#solutions" className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-blue-500 hover:bg-blue-600 text-white font-medium transition-all">
@@ -125,7 +125,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div ref={solutions.ref} className="mb-16 md:mb-24 text-center md:text-left"
             style={{ opacity: solutions.isInView ? 1 : 0, transform: solutions.isInView ? "translateY(0)" : "translateY(20px)", transition: "opacity 0.6s ease-out, transform 0.6s ease-out" }}>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Business Solutions</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">事業内容</h2>
             <p className="text-slate-400 max-w-2xl mx-auto md:mx-0">高度なセキュリティと利便性を両立する、次世代のインフラストラクチャを構築します。</p>
           </div>
           <div className="grid md:grid-cols-3 gap-6 md:gap-8">
@@ -179,7 +179,7 @@ export default function App() {
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div ref={companyText.ref}
               style={{ opacity: companyText.isInView ? 1 : 0, transform: companyText.isInView ? "translateX(0)" : "translateX(-30px)", transition: "opacity 0.6s ease-out, transform 0.6s ease-out" }}>
-              <h2 className="text-3xl md:text-4xl font-bold mb-12">Company Profile</h2>
+              <h2 className="text-3xl md:text-4xl font-bold mb-12">会社概要</h2>
               <div className="space-y-8">
                 <div className="flex flex-col border-b border-white/10 pb-6">
                   <span className="text-sm text-slate-500 mb-2 uppercase tracking-wider">社名</span>
@@ -223,7 +223,7 @@ export default function App() {
           <div ref={contactSection.ref}
             style={{ opacity: contactSection.isInView ? 1 : 0, transform: contactSection.isInView ? "translateY(0)" : "translateY(20px)", transition: "opacity 0.6s ease-out, transform 0.6s ease-out" }}>
             <div className="max-w-2xl mx-auto">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">Contact Us</h2>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">お問い合わせ</h2>
               <p className="text-slate-400 text-center mb-12">
                 ご質問・ご相談はお気軽にお問い合わせください。<br className="hidden md:block" />
                 担当者より折り辺しご連絡いたします。
