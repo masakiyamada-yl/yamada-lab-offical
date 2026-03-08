@@ -292,9 +292,9 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-2">
             <Shield className="w-6 h-6 text-blue-500" />
-            <span className="text-lg font-bold tracking-tight text-slate-300">Yamada Lab LLC</span>
+            <span className="text-lg font-bold tracking-tight text-slate-300">山田ラボ合同会社</span>
           </div>
-          <p className="text-sm text-slate-500">&copy; {new Date().getFullYear()} Yamada Lab LLC. All rights reserved. &nbsp;·&nbsp; <button onClick={() => setShowPrivacy(true)} className="hover:text-blue-400 transition-colors underline">プライバシーポリシー</button></p>
+          <p className="text-sm text-slate-500">&copy; {new Date().getFullYear()} 山田ラボ合同会社. All rights reserved. &nbsp;·&nbsp; <button onClick={() => setShowPrivacy(true)} className="hover:text-blue-400 transition-colors underline">プライバシーポリシー</button></p>
         </div>
       </footer>
       {showPrivacy && (
