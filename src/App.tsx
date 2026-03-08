@@ -1,26 +1,21 @@
-import { Shield, Wifi, Code, ChevronRight, Globe, Lock, Menu, X } from "lucide-react";
+import { Shield, Wifi, Code, ChevronRight, Globe, Lock, Menu, X, Send, CheckCircle, AlertCircle } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 
 function useInView(options = {}) {
   const ref = useRef<HTMLDivElement>(null);
   const [isInView, setIsInView] = useState(false);
-
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsInView(true);
-          observer.unobserve(el);
-        }
+        if (entry.isIntersecting) { setIsInView(true); observer.unobserve(el); }
       },
       { threshold: 0.1, rootMargin: "-100px", ...options }
     );
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
-
   return { ref, isInView };
 }
 
@@ -28,19 +23,45 @@ export default function App() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [heroVisible, setHeroVisible] = useState(false);
+  const [formData, setFormData] = useState({ name: "", email: "", subject: "", message: "" });
+  const [formStatus, setFormStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
+    const handleScroll = () => { setIsScrolled(window.scrollY > 50); };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
   useEffect(() => {
     const t = setTimeout(() => setHeroVisible(true), 100);
     return () => clearTimeout(t);
   }, []);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setFormStatus("sending");
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: "YOUR_WEB3FORMS_ACCESS_KEY",
+          subject: `山田ラボ お問い合わせ：${formData.subject}`,
+          from_name: formData.name,
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+        }),
+      });
+      const json = await res.json();
+      if (json.success) {
+        setFormStatus("success");
+        setFormData({ name: "", email: "", subject: "", message: "" });
+      } else { setFormStatus("error"); }
+    } catch { setFormStatus("error"); }
+  };
 
   const solutions = useInView();
   const card1 = useInView();
@@ -48,6 +69,7 @@ export default function App() {
   const card3 = useInView();
   const companyText = useInView();
   const companyImage = useInView();
+  const contactSection = useInView();
 
   return (
     <div className="min-h-screen bg-slate-900 text-slate-50 font-sans selection:bg-blue-500/30 overflow-x-hidden">
@@ -67,18 +89,20 @@ export default function App() {
             {mobileMenuOpen ? <X /> : <Menu />}
           </button>
         </div>
+        {mobileMenuOpen && (
+          <div className="md:hidden bg-slate-900/95 backdrop-blur-md border-t border-white/10 px-6 py-4 flex flex-col gap-4 text-sm font-medium text-slate-300">
+            <a href="#solutions" className="hover:text-blue-400 transition-colors" onClick={() => setMobileMenuOpen(false)}>Solutions</a>
+            <a href="#company" className="hover:text-blue-400 transition-colors" onClick={() => setMobileMenuOpen(false)}>Company</a>
+            <a href="#contact" className="text-blue-400" onClick={() => setMobileMenuOpen(false)}>Contact Us</a>
+          </div>
+        )}
       </nav>
 
-      {/* Hero Section */}
+      {/* Hero */}
       <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
-        {/* Background Effects */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-500/20 rounded-full blur-[120px] opacity-50 pointer-events-none" />
-
         <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10 text-center">
-          <div
-            className="fade-up"
-            style={{ opacity: heroVisible ? 1 : 0, transform: heroVisible ? "translateY(0)" : "translateY(30px)", transition: "opacity 0.8s ease-out, transform 0.8s ease-out" }}
-          >
+          <div style={{ opacity: heroVisible ? 1 : 0, transform: heroVisible ? "translateY(0)" : "translateY(30px)", transition: "opacity 0.8s ease-out, transform 0.8s ease-out" }}>
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-8">
               <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
               <span className="text-sm font-medium text-slate-300 tracking-wide">Border Free & Security</span>
@@ -91,82 +115,55 @@ export default function App() {
               OpenRoaming技術と強固な電子認証基盤により、<br className="hidden md:block" />
               国境やネットワークの壁を越えたシームレスで安全な通信体験を提供します。
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a href="#solutions" className="w-full sm:w-auto px-8 py-4 rounded-full bg-blue-500 hover:bg-blue-600 text-white font-medium transition-all flex items-center justify-center gap-2">
-                ソリューションを見る
-                <ChevronRight className="w-4 h-4" />
-              </a>
-            </div>
+            <a href="#solutions" className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-blue-500 hover:bg-blue-600 text-white font-medium transition-all">
+              ソリューションを見る <ChevronRight className="w-4 h-4" />
+            </a>
           </div>
         </div>
       </section>
 
-      {/* Business Solutions */}
+      {/* Solutions */}
       <section id="solutions" className="py-32 relative">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
-          <div
-            ref={solutions.ref}
-            className="mb-16 md:mb-24 text-center md:text-left fade-up"
-            style={{ opacity: solutions.isInView ? 1 : 0, transform: solutions.isInView ? "translateY(0)" : "translateY(20px)", transition: "opacity 0.6s ease-out, transform 0.6s ease-out" }}
-          >
+          <div ref={solutions.ref} className="mb-16 md:mb-24 text-center md:text-left"
+            style={{ opacity: solutions.isInView ? 1 : 0, transform: solutions.isInView ? "translateY(0)" : "translateY(20px)", transition: "opacity 0.6s ease-out, transform 0.6s ease-out" }}>
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Business Solutions</h2>
             <p className="text-slate-400 max-w-2xl mx-auto md:mx-0">高度なセキュリティと利便性を両立する、次世代のインフラストラクチャを構築します。</p>
           </div>
-
           <div className="grid md:grid-cols-3 gap-6 md:gap-8">
-            {/* Solution 1 */}
-            <div
-              ref={card1.ref}
-              className="p-8 rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-sm hover:bg-white/[0.04] transition-colors group fade-up"
-              style={{ opacity: card1.isInView ? 1 : 0, transform: card1.isInView ? "translateY(0)" : "translateY(20px)", transition: "opacity 0.6s ease-out 0.1s, transform 0.6s ease-out 0.1s" }}
-            >
+            <div ref={card1.ref} className="p-8 rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-sm hover:bg-white/[0.04] transition-colors group"
+              style={{ opacity: card1.isInView ? 1 : 0, transform: card1.isInView ? "translateY(0)" : "translateY(20px)", transition: "opacity 0.6s ease-out 0.1s, transform 0.6s ease-out 0.1s" }}>
               <div className="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center mb-6 border border-blue-500/20 group-hover:border-blue-500/40 transition-colors">
                 <Wifi className="w-7 h-7 text-blue-400" />
               </div>
               <h3 className="text-xl font-bold mb-4">通信インフラ</h3>
-              <p className="text-slate-400 text-sm leading-relaxed mb-6">
-                電気通信事業法に基づく確かな電気通信事業を展開。コンピュータシステムおよび通信ネットワークのインフラ構築、設計、コンサルティングを提供します。
-              </p>
+              <p className="text-slate-400 text-sm leading-relaxed mb-6">電気通信事業法に基づく確かな電気通信事業を展開。コンピュータシステムおよび通信ネットワークのインフラ構築、設計、コンサルティングを提供します。</p>
               <ul className="space-y-2 text-sm text-slate-500">
                 <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-blue-400" />電気通信事業</li>
                 <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-blue-400" />インフラ構築・設計</li>
                 <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-blue-400" />ネットワークコンサルティング</li>
               </ul>
             </div>
-
-            {/* Solution 2 */}
-            <div
-              ref={card2.ref}
-              className="p-8 rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-sm hover:bg-white/[0.04] transition-colors group fade-up"
-              style={{ opacity: card2.isInView ? 1 : 0, transform: card2.isInView ? "translateY(0)" : "translateY(20px)", transition: "opacity 0.6s ease-out 0.2s, transform 0.6s ease-out 0.2s" }}
-            >
+            <div ref={card2.ref} className="p-8 rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-sm hover:bg-white/[0.04] transition-colors group"
+              style={{ opacity: card2.isInView ? 1 : 0, transform: card2.isInView ? "translateY(0)" : "translateY(20px)", transition: "opacity 0.6s ease-out 0.2s, transform 0.6s ease-out 0.2s" }}>
               <div className="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center mb-6 border border-blue-500/20 group-hover:border-blue-500/40 transition-colors">
                 <Lock className="w-7 h-7 text-blue-400" />
               </div>
               <h3 className="text-xl font-bold mb-4">認証ソリューション</h3>
-              <p className="text-slate-400 text-sm leading-relaxed mb-6">
-                OpenRoamingをはじめとする次世代の電子認証システムの企画、開発、運用及び保守。セキュアでシームレスな接続環境を実現します。
-              </p>
+              <p className="text-slate-400 text-sm leading-relaxed mb-6">OpenRoamingをはじめとする次世代の電子認証システムの企画、開発、運用及び保守。セキュアでシームレスな接続環境を実現します。</p>
               <ul className="space-y-2 text-sm text-slate-500">
                 <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-blue-400" />電子認証システム開発</li>
                 <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-blue-400" />OpenRoaming連携</li>
                 <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-blue-400" />セキュリティ保守運用</li>
               </ul>
             </div>
-
-            {/* Solution 3 */}
-            <div
-              ref={card3.ref}
-              className="p-8 rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-sm hover:bg-white/[0.04] transition-colors group fade-up"
-              style={{ opacity: card3.isInView ? 1 : 0, transform: card3.isInView ? "translateY(0)" : "translateY(20px)", transition: "opacity 0.6s ease-out 0.3s, transform 0.6s ease-out 0.3s" }}
-            >
+            <div ref={card3.ref} className="p-8 rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-sm hover:bg-white/[0.04] transition-colors group"
+              style={{ opacity: card3.isInView ? 1 : 0, transform: card3.isInView ? "translateY(0)" : "translateY(20px)", transition: "opacity 0.6s ease-out 0.3s, transform 0.6s ease-out 0.3s" }}>
               <div className="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center mb-6 border border-blue-500/20 group-hover:border-blue-500/40 transition-colors">
                 <Code className="w-7 h-7 text-blue-400" />
               </div>
               <h3 className="text-xl font-bold mb-4">システム開発</h3>
-              <p className="text-slate-400 text-sm leading-relaxed mb-6">
-                情報通信システム機器・ソフトウェアの製造、販売。インターネットを利用した情報提供サービスや、先進的なアプリケーションの制作・運営を行います。
-              </p>
+              <p className="text-slate-400 text-sm leading-relaxed mb-6">情報通信システム機器・ソフトウェアの製造、販売。インターネットを利用した情報提供サービスや、先進的なアプリケーションの制作・運営を行います。</p>
               <ul className="space-y-2 text-sm text-slate-500">
                 <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-blue-400" />ソフトウェア製造・販売</li>
                 <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-blue-400" />アプリ制作・運営</li>
@@ -177,16 +174,13 @@ export default function App() {
         </div>
       </section>
 
-      {/* Company Profile */}
+      {/* Company */}
       <section id="company" className="py-32 bg-slate-900/50 border-t border-white/5 relative overflow-hidden">
         <div className="absolute right-0 top-0 w-1/2 h-full bg-gradient-to-l from-blue-900/10 to-transparent pointer-events-none" />
-
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="grid md:grid-cols-2 gap-16 items-center">
-            <div
-              ref={companyText.ref}
-              style={{ opacity: companyText.isInView ? 1 : 0, transform: companyText.isInView ? "translateX(0)" : "translateX(-30px)", transition: "opacity 0.6s ease-out, transform 0.6s ease-out" }}
-            >
+            <div ref={companyText.ref}
+              style={{ opacity: companyText.isInView ? 1 : 0, transform: companyText.isInView ? "translateX(0)" : "translateX(-30px)", transition: "opacity 0.6s ease-out, transform 0.6s ease-out" }}>
               <h2 className="text-3xl md:text-4xl font-bold mb-12">Company Profile</h2>
               <div className="space-y-8">
                 <div className="flex flex-col border-b border-white/10 pb-6">
@@ -207,13 +201,9 @@ export default function App() {
                 </div>
               </div>
             </div>
-
-            <div
-              ref={companyImage.ref}
+            <div ref={companyImage.ref}
               className="relative rounded-3xl overflow-hidden border border-white/10 aspect-square md:aspect-[4/3] bg-slate-800"
-              style={{ opacity: companyImage.isInView ? 1 : 0, transform: companyImage.isInView ? "scale(1)" : "scale(0.95)", transition: "opacity 0.6s ease-out, transform 0.6s ease-out" }}
-            >
-              {/* Abstract representation of the company / tech */}
+              style={{ opacity: companyImage.isInView ? 1 : 0, transform: companyImage.isInView ? "scale(1)" : "scale(0.95)", transition: "opacity 0.6s ease-out, transform 0.6s ease-out" }}>
               <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop')] bg-cover bg-center opacity-40 mix-blend-luminosity" />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent" />
               <div className="absolute bottom-8 left-8 right-8">
@@ -228,6 +218,78 @@ export default function App() {
         </div>
       </section>
 
+      {/* Contact */}
+      <section id="contact" className="py-32 border-t border-white/5 relative overflow-hidden">
+        <div className="absolute left-0 top-0 w-1/2 h-full bg-gradient-to-r from-blue-900/10 to-transparent pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div ref={contactSection.ref}
+            style={{ opacity: contactSection.isInView ? 1 : 0, transform: contactSection.isInView ? "translateY(0)" : "translateY(20px)", transition: "opacity 0.6s ease-out, transform 0.6s ease-out" }}>
+            <div className="max-w-2xl mx-auto">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">Contact Us</h2>
+              <p className="text-slate-400 text-center mb-12">
+                ご質問・ご相談はお気軽にお問い合わせください。<br className="hidden md:block" />
+                担当者より折り辺しご連絡いたします。
+              </p>
+
+              {formStatus === "success" ? (
+                <div className="flex flex-col items-center justify-center py-16 gap-4 text-center">
+                  <CheckCircle className="w-16 h-16 text-green-400" />
+                  <h3 className="text-xl font-bold">送信が完了しました</h3>
+                  <p className="text-slate-400">お問い合わせありがとうございます。<br />内容を確認の上、担当者よりご連絡いたします。</p>
+                  <button onClick={() => setFormStatus("idle")} className="mt-4 px-6 py-2.5 rounded-full bg-white/5 border border-white/10 text-sm hover:bg-white/10 transition-colors">
+                    新しいお問い合わせ
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="grid sm:grid-cols-2 gap-6">
+                    <div>
+                      <label htmlFor="name" className="block text-sm text-slate-400 mb-2">お名前 <span className="text-blue-400">*</span></label>
+                      <input type="text" id="name" name="name" required value={formData.name} onChange={handleChange}
+                        placeholder="山田 太郎"
+                        className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-slate-100 placeholder-slate-600 focus:outline-none focus:border-blue-500/50 focus:bg-white/[0.06] transition-all" />
+                    </div>
+                    <div>
+                      <label htmlFor="email" className="block text-sm text-slate-400 mb-2">メールアドレス <span className="text-blue-400">*</span></label>
+                      <input type="email" id="email" name="email" required value={formData.email} onChange={handleChange}
+                        placeholder="taro@example.com"
+                        className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-slate-100 placeholder-slate-600 focus:outline-none focus:border-blue-500/50 focus:bg-white/[0.06] transition-all" />
+                    </div>
+                  </div>
+                  <div>
+                    <label htmlFor="subject" className="block text-sm text-slate-400 mb-2">件名 <span className="text-blue-400">*</span></label>
+                    <input type="text" id="subject" name="subject" required value={formData.subject} onChange={handleChange}
+                      placeholder="お問い合わせ内容の件名"
+                      className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-slate-100 placeholder-slate-600 focus:outline-none focus:border-blue-500/50 focus:bg-white/[0.06] transition-all" />
+                  </div>
+                  <div>
+                    <label htmlFor="message" className="block text-sm text-slate-400 mb-2">メッセージ <span className="text-blue-400">*</span></label>
+                    <textarea id="message" name="message" required rows={6} value={formData.message} onChange={handleChange}
+                      placeholder="お問い合わせ内容をご記入ください"
+                      className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-slate-100 placeholder-slate-600 focus:outline-none focus:border-blue-500/50 focus:bg-white/[0.06] transition-all resize-none" />
+                  </div>
+                  {formStatus === "error" && (
+                    <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+                      <AlertCircle className="w-5 h-5 shrink-0" />
+                      送信に失敗しました。時間をおいて再度お試しください。
+                    </div>
+                  )}
+                  <button type="submit" disabled={formStatus === "sending"}
+                    className="w-full flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-blue-500 hover:bg-blue-600 disabled:bg-blue-500/50 disabled:cursor-not-allowed text-white font-medium transition-all">
+                    {formStatus === "sending" ? (
+                      <><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />送信中...</>
+                    ) : (
+                      <><Send className="w-4 h-4" />送信する</>
+                    )}
+                  </button>
+                  <p className="text-xs text-slate-600 text-center">送信先：contact@yamada-lab.co.jp</p>
+                </form>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="py-12 border-t border-white/10 bg-slate-950">
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-6">
@@ -235,9 +297,7 @@ export default function App() {
             <Shield className="w-6 h-6 text-blue-500" />
             <span className="text-lg font-bold tracking-tight text-slate-300">Yamada Lab LLC</span>
           </div>
-          <p className="text-sm text-slate-500">
-            &copy; {new Date().getFullYear()} Yamada Lab LLC. All rights reserved.
-          </p>
+          <p className="text-sm text-slate-500">&copy; {new Date().getFullYear()} Yamada Lab LLC. All rights reserved.</p>
         </div>
       </footer>
     </div>
