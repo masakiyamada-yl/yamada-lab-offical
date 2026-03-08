@@ -279,7 +279,6 @@ export default function App() {
                       <><Send className="w-4 h-4" />送信する</>
                     )}
                   </button>
-                  <p className="text-xs text-slate-600 text-center">送信先：contact@yamada-lab.co.jp</p>
                 </form>
               )}
             </div>
