@@ -1,10 +1,33 @@
-import { motion } from "motion/react";
 import { Shield, Wifi, Code, ChevronRight, Globe, Lock, Menu, X } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+
+function useInView(options = {}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isInView, setIsInView] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+          observer.unobserve(el);
+        }
+      },
+      { threshold: 0.1, rootMargin: "-100px", ...options }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return { ref, isInView };
+}
 
 export default function App() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [heroVisible, setHeroVisible] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -13,6 +36,18 @@ export default function App() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    const t = setTimeout(() => setHeroVisible(true), 100);
+    return () => clearTimeout(t);
+  }, []);
+
+  const solutions = useInView();
+  const card1 = useInView();
+  const card2 = useInView();
+  const card3 = useInView();
+  const companyText = useInView();
+  const companyImage = useInView();
 
   return (
     <div className="min-h-screen bg-slate-900 text-slate-50 font-sans selection:bg-blue-500/30 overflow-x-hidden">
@@ -28,7 +63,7 @@ export default function App() {
             <a href="#company" className="hover:text-blue-400 transition-colors">Company</a>
             <a href="#contact" className="px-5 py-2.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 hover:bg-blue-500/20 transition-all">Contact Us</a>
           </div>
-          <button className="md:hidden text-slate-300" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+          <button className="md:hidden text-slate-300" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label={mobileMenuOpen ? "メニューを閉じる" : "メニューを開く"}>
             {mobileMenuOpen ? <X /> : <Menu />}
           </button>
         </div>
@@ -38,12 +73,11 @@ export default function App() {
       <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
         {/* Background Effects */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-500/20 rounded-full blur-[120px] opacity-50 pointer-events-none" />
-        
+
         <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+          <div
+            className="fade-up"
+            style={{ opacity: heroVisible ? 1 : 0, transform: heroVisible ? "translateY(0)" : "translateY(30px)", transition: "opacity 0.8s ease-out, transform 0.8s ease-out" }}
           >
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-8">
               <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
@@ -63,31 +97,28 @@ export default function App() {
                 <ChevronRight className="w-4 h-4" />
               </a>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* Business Solutions */}
       <section id="solutions" className="py-32 relative">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            className="mb-16 md:mb-24 text-center md:text-left"
+          <div
+            ref={solutions.ref}
+            className="mb-16 md:mb-24 text-center md:text-left fade-up"
+            style={{ opacity: solutions.isInView ? 1 : 0, transform: solutions.isInView ? "translateY(0)" : "translateY(20px)", transition: "opacity 0.6s ease-out, transform 0.6s ease-out" }}
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Business Solutions</h2>
             <p className="text-slate-400 max-w-2xl mx-auto md:mx-0">高度なセキュリティと利便性を両立する、次世代のインフラストラクチャを構築します。</p>
-          </motion.div>
+          </div>
 
           <div className="grid md:grid-cols-3 gap-6 md:gap-8">
             {/* Solution 1 */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ delay: 0.1 }}
-              className="p-8 rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-sm hover:bg-white/[0.04] transition-colors group"
+            <div
+              ref={card1.ref}
+              className="p-8 rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-sm hover:bg-white/[0.04] transition-colors group fade-up"
+              style={{ opacity: card1.isInView ? 1 : 0, transform: card1.isInView ? "translateY(0)" : "translateY(20px)", transition: "opacity 0.6s ease-out 0.1s, transform 0.6s ease-out 0.1s" }}
             >
               <div className="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center mb-6 border border-blue-500/20 group-hover:border-blue-500/40 transition-colors">
                 <Wifi className="w-7 h-7 text-blue-400" />
@@ -101,15 +132,13 @@ export default function App() {
                 <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-blue-400" />インフラ構築・設計</li>
                 <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-blue-400" />ネットワークコンサルティング</li>
               </ul>
-            </motion.div>
+            </div>
 
             {/* Solution 2 */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ delay: 0.2 }}
-              className="p-8 rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-sm hover:bg-white/[0.04] transition-colors group"
+            <div
+              ref={card2.ref}
+              className="p-8 rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-sm hover:bg-white/[0.04] transition-colors group fade-up"
+              style={{ opacity: card2.isInView ? 1 : 0, transform: card2.isInView ? "translateY(0)" : "translateY(20px)", transition: "opacity 0.6s ease-out 0.2s, transform 0.6s ease-out 0.2s" }}
             >
               <div className="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center mb-6 border border-blue-500/20 group-hover:border-blue-500/40 transition-colors">
                 <Lock className="w-7 h-7 text-blue-400" />
@@ -123,15 +152,13 @@ export default function App() {
                 <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-blue-400" />OpenRoaming連携</li>
                 <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-blue-400" />セキュリティ保守運用</li>
               </ul>
-            </motion.div>
+            </div>
 
             {/* Solution 3 */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ delay: 0.3 }}
-              className="p-8 rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-sm hover:bg-white/[0.04] transition-colors group"
+            <div
+              ref={card3.ref}
+              className="p-8 rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-sm hover:bg-white/[0.04] transition-colors group fade-up"
+              style={{ opacity: card3.isInView ? 1 : 0, transform: card3.isInView ? "translateY(0)" : "translateY(20px)", transition: "opacity 0.6s ease-out 0.3s, transform 0.6s ease-out 0.3s" }}
             >
               <div className="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center mb-6 border border-blue-500/20 group-hover:border-blue-500/40 transition-colors">
                 <Code className="w-7 h-7 text-blue-400" />
@@ -145,7 +172,7 @@ export default function App() {
                 <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-blue-400" />アプリ制作・運営</li>
                 <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-blue-400" />情報提供サービス</li>
               </ul>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
@@ -153,13 +180,12 @@ export default function App() {
       {/* Company Profile */}
       <section id="company" className="py-32 bg-slate-900/50 border-t border-white/5 relative overflow-hidden">
         <div className="absolute right-0 top-0 w-1/2 h-full bg-gradient-to-l from-blue-900/10 to-transparent pointer-events-none" />
-        
+
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="grid md:grid-cols-2 gap-16 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
+            <div
+              ref={companyText.ref}
+              style={{ opacity: companyText.isInView ? 1 : 0, transform: companyText.isInView ? "translateX(0)" : "translateX(-30px)", transition: "opacity 0.6s ease-out, transform 0.6s ease-out" }}
             >
               <h2 className="text-3xl md:text-4xl font-bold mb-12">Company Profile</h2>
               <div className="space-y-8">
@@ -180,13 +206,12 @@ export default function App() {
                   </span>
                 </div>
               </div>
-            </motion.div>
-            
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: "-100px" }}
+            </div>
+
+            <div
+              ref={companyImage.ref}
               className="relative rounded-3xl overflow-hidden border border-white/10 aspect-square md:aspect-[4/3] bg-slate-800"
+              style={{ opacity: companyImage.isInView ? 1 : 0, transform: companyImage.isInView ? "scale(1)" : "scale(0.95)", transition: "opacity 0.6s ease-out, transform 0.6s ease-out" }}
             >
               {/* Abstract representation of the company / tech */}
               <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop')] bg-cover bg-center opacity-40 mix-blend-luminosity" />
@@ -198,7 +223,7 @@ export default function App() {
                 </div>
                 <p className="text-sm text-slate-400">Fukuoka, Japan to the World.</p>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
