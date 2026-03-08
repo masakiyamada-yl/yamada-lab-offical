@@ -43,15 +43,13 @@ export default function App() {
     e.preventDefault();
     setFormStatus("sending");
     try {
-      const res = await fetch("https://api.web3forms.com/submit", {
+      const res = await fetch("https://script.google.com/macros/s/AKfycbx-IftvWDli_VrQ-j8T51m9FcJq3KU3A-RdA8BK-WIe3fnj5z7LFaTlauXSYulE97cpGQ/exec", {
         method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          access_key: "YOUR_WEB3FORMS_ACCESS_KEY",
-          subject: `山田ラボ お問い合わせ：${formData.subject}`,
-          from_name: formData.name,
           name: formData.name,
           email: formData.email,
+          subject: formData.subject,
           message: formData.message,
         }),
       });
