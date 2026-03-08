@@ -76,7 +76,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Shield className="w-8 h-8 text-blue-400" />
-            <span className="text-xl font-bold tracking-tight">Yamada Lab</span>
+            <span className="text-xl font-bold tracking-tight">山田ラボ合同会社</span>
           </div>
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
             <a href="#solutions" className="hover:text-blue-400 transition-colors">ソリューション</a>
