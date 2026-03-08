@@ -25,6 +25,7 @@ export default function App() {
   const [heroVisible, setHeroVisible] = useState(false);
   const [formData, setFormData] = useState({ name: "", email: "", subject: "", message: "" });
   const [formStatus, setFormStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [showPrivacy, setShowPrivacy] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => { setIsScrolled(window.scrollY > 50); };
@@ -293,9 +294,36 @@ export default function App() {
             <Shield className="w-6 h-6 text-blue-500" />
             <span className="text-lg font-bold tracking-tight text-slate-300">Yamada Lab LLC</span>
           </div>
-          <p className="text-sm text-slate-500">&copy; {new Date().getFullYear()} Yamada Lab LLC. All rights reserved.</p>
+          <p className="text-sm text-slate-500">&copy; {new Date().getFullYear()} Yamada Lab LLC. All rights reserved. &nbsp;·&nbsp; <button onClick={() => setShowPrivacy(true)} className="hover:text-blue-400 transition-colors underline">プライバシーポリシー</button></p>
         </div>
       </footer>
+      {showPrivacy && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" onClick={() => setShowPrivacy(false)}>
+          <div className="bg-slate-900 border border-white/10 rounded-2xl max-w-2xl w-full max-h-[80vh] overflow-y-auto p-8" onClick={e => e.stopPropagation()}>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-white">プライバシーポリシー</h2>
+              <button onClick={() => setShowPrivacy(false)} className="text-slate-400 hover:text-white transition-colors">
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            <div className="text-slate-300 space-y-3 text-sm leading-relaxed">
+              <p className="text-slate-400 text-xs mb-4">最終更新日：2026年3月8日</p>
+              <h3 className="text-white font-semibold">1. 個人情報の取得について</h3>
+              <p>山田ラボ合同会社（以下「当社」）は、お問い合わせフォームを通じて、お名前・メールアドレス・お問い合わせ内容等の個人情報を取得する場合があります。</p>
+              <h3 className="text-white font-semibold mt-2">2. 個人情報の利用目的</h3>
+              <p>取得した個人情報は、お問い合わせへの回答・連絡および当社サービスに関するご案内のみに使用し、その他の目的には使用しません。</p>
+              <h3 className="text-white font-semibold mt-2">3. 個人情報の第三者提供</h3>
+              <p>当社は、法令に基づく場合を除き、ご本人の同意なく個人情報を第三者に提供することはありません。</p>
+              <h3 className="text-white font-semibold mt-2">4. 個人情報の管理</h3>
+              <p>当社は、個人情報の漏洩・滅失・毀損を防止するため、適切なセキュリティ対策を実施します。</p>
+              <h3 className="text-white font-semibold mt-2">5. 個人情報の開示・訂正・削除</h3>
+              <p>ご本人から個人情報の開示・訂正・削除のご要望があった場合、合理的な範囲で速やかに対応いたします。</p>
+              <h3 className="text-white font-semibold mt-2">6. お問い合わせ</h3>
+              <p>個人情報の取り扱いに関するご質問は、当社お問い合わせフォームよりご連絡ください。</p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
