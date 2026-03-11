@@ -4,7 +4,19 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Noto Sans JP"', 'Inter', 'system-ui', 'sans-serif'],
+        // Google Fonts 廃止 → システムフォントスタック（外部リクエスト不要）
+        // macOS/iOS: Hiragino、Windows: Yu Gothic/Meiryo を優先使用
+        sans: [
+          '-apple-system',
+          'BlinkMacSystemFont',
+          '"Hiragino Sans"',
+          '"Hiragino Kaku Gothic ProN"',
+          '"Yu Gothic"',
+          'YuGothic',
+          'Meiryo',
+          'system-ui',
+          'sans-serif',
+        ],
       },
       animation: {
         'fade-in': 'fadeIn 0.8s ease-out forwards',
