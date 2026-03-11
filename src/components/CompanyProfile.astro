@@ -1,0 +1,159 @@
+---
+/**
+ * CompanyProfile.astro
+ * 会社概要セクション（会社情報テーブル + GLOBAL REACH ビジュアル）
+ * スクロールアニメーション対応・ARIA対応
+ */
+---
+
+<section
+  id="company"
+  class="py-24 md:py-32 bg-slate-900/50 border-t border-white/5 relative overflow-hidden"
+  aria-labelledby="company-heading"
+>
+  <!-- 背景グラデーション -->
+  <div
+    class="absolute right-0 top-0 w-1/2 h-full bg-gradient-to-l from-blue-900/10 to-transparent pointer-events-none"
+    aria-hidden="true"
+  ></div>
+
+  <div class="max-w-7xl mx-auto px-6 md:px-12">
+    <div class="grid md:grid-cols-2 gap-12 md:gap-16 items-center">
+
+      <!-- 左カラム：会社情報 -->
+      <div class="js-animate-left">
+        <h2
+          id="company-heading"
+          class="text-3xl md:text-4xl font-bold mb-10"
+        >
+          Company Profile
+        </h2>
+
+        <dl class="space-y-8">
+          <div class="flex flex-col border-b border-white/10 pb-6">
+            <dt class="text-sm text-slate-500 mb-2 uppercase tracking-wider">社名</dt>
+            <dd class="text-lg font-medium">山田ラボ合同会社 (Yamada Lab LLC)</dd>
+          </div>
+
+          <div class="flex flex-col border-b border-white/10 pb-6">
+            <dt class="text-sm text-slate-500 mb-2 uppercase tracking-wider">代表社員</dt>
+            <dd class="text-lg font-medium">山田 正樹</dd>
+          </div>
+
+          <div class="flex flex-col border-b border-white/10 pb-6">
+            <dt class="text-sm text-slate-500 mb-2 uppercase tracking-wider">所在地</dt>
+            <dd class="text-lg font-medium leading-relaxed">
+              〒812-0011<br />
+              福岡県福岡市博多区博多駅前1丁目23番2号<br />
+              ParkFront博多駅前1丁目5F-B
+            </dd>
+          </div>
+
+          <div class="flex flex-col border-b border-white/10 pb-6">
+            <dt class="text-sm text-slate-500 mb-2 uppercase tracking-wider">事業内容</dt>
+            <dd class="text-lg font-medium leading-relaxed">
+              電気通信事業 / 認証ソリューション / システム開発
+            </dd>
+          </div>
+
+          <div class="flex flex-col">
+            <dt class="text-sm text-slate-500 mb-2 uppercase tracking-wider">連絡先</dt>
+            <dd class="text-lg font-medium">
+              <a
+                href="mailto:contact@yamada-lab.co.jp"
+                class="text-blue-400 hover:text-blue-300 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400 rounded"
+              >
+                contact@yamada-lab.co.jp
+              </a>
+            </dd>
+          </div>
+        </dl>
+      </div>
+
+      <!-- 右カラム：GLOBAL REACH ビジュアル -->
+      <div
+        class="js-animate-right relative rounded-3xl overflow-hidden border border-white/10 aspect-square md:aspect-[4/3] bg-slate-800"
+        aria-hidden="true"
+      >
+        <!-- 背景画像（外部Unsplash） -->
+        <div
+          class="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-luminosity"
+          style="background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop')"
+        ></div>
+
+        <!-- グラデーションオーバーレイ -->
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent"></div>
+
+        <!-- テキストオーバーレイ -->
+        <div class="absolute bottom-8 left-8 right-8">
+          <div class="flex items-center gap-3 mb-2">
+            <!-- Globe icon -->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="text-blue-400"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="2" y1="12" x2="22" y2="12"/>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+            <span class="font-semibold tracking-wider text-white">GLOBAL REACH</span>
+          </div>
+          <p class="text-sm text-slate-400">Fukuoka, Japan to the World.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  // スクロールアニメーション（Intersection Observer）
+  const observerLeft = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-fade-up');
+          (entry.target as HTMLElement).style.opacity = '1';
+          observerLeft.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.1, rootMargin: '-60px' }
+  );
+
+  const observerRight = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          (entry.target as HTMLElement).style.opacity = '1';
+          (entry.target as HTMLElement).style.transform = 'scale(1)';
+          observerRight.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.1, rootMargin: '-60px' }
+  );
+
+  document.querySelectorAll('#company .js-animate-left').forEach((el) => {
+    (el as HTMLElement).style.opacity = '0';
+    (el as HTMLElement).style.transform = 'translateX(-30px)';
+    (el as HTMLElement).style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+    observerLeft.observe(el);
+  });
+
+  document.querySelectorAll('#company .js-animate-right').forEach((el) => {
+    (el as HTMLElement).style.opacity = '0';
+    (el as HTMLElement).style.transform = 'scale(0.95)';
+    (el as HTMLElement).style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+    observerRight.observe(el);
+  });
+</script>
