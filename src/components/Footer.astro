@@ -26,13 +26,11 @@ const year = new Date().getFullYear();
       >
         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
       </svg>
-      <span class="text-lg font-bold tracking-tight text-slate-300">山田ラボ合同会社</span>
+      <span class="text-lg font-bold tracking-tight text-slate-300">Yamada Lab LLC</span>
     </div>
 
-    <!-- コピーライト -->
+    <!-- プライバシーポリシー（2段目） -->
     <p class="text-sm text-slate-500">
-      &copy; {year} 山田ラボ合同会社. All rights reserved.
-      &nbsp;&middot;&nbsp;
       <button
         id="privacy-open-btn"
         type="button"
@@ -43,6 +41,12 @@ const year = new Date().getFullYear();
         プライバシーポリシー
       </button>
     </p>
+
+    <!-- コピーライト（最下段） -->
+    <p class="text-sm text-slate-500">
+      &copy; {year} Yamada Lab LLC. All rights reserved.
+    </p>
+
   </div>
 </footer>
 
@@ -147,12 +151,10 @@ const year = new Date().getFullYear();
   openBtn.addEventListener('click', openModal);
   closeBtn.addEventListener('click', closeModal);
 
-  // 背景クリックで閉じる
   modal.addEventListener('click', (e) => {
     if (!panel.contains(e.target as Node)) closeModal();
   });
 
-  // Escape キーで閉じる
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal();
   });
