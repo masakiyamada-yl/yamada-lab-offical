@@ -138,11 +138,12 @@ export default function App() {
             style={{ opacity: heroVisible ? 1 : 0, transform: heroVisible ? "translateY(0)" : "translateY(30px)", transition: "opacity 0.8s ease-out, transform 0.8s ease-out" }}
           >
             <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 leading-tight">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">ネットワーク</span>で未来をつなぐ。
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">ネットワーク</span>で、<br />
+              ビジネスの未来を拓く。
             </h1>
             <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 leading-relaxed">
-              次世代の通信インフラとセキュアなネットワーク基盤により、<br className="hidden md:block" />
-              国境を越えたシームレスな通信体験を提供します。
+              通信インフラの構築から認証・セキュリティまで、<br className="hidden md:block" />
+              高度なネットワークソリューションで企業の課題を解決します。
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <a href="#solutions" className="w-full sm:w-auto px-8 py-4 rounded-full bg-blue-500 hover:bg-blue-600 text-white font-medium transition-all flex items-center justify-center gap-2">
