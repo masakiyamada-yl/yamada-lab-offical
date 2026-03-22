@@ -1,7 +1,30 @@
-import {StrictMode} from 'react';
+import {StrictMode, Component, ReactNode} from 'react';
 import {createRoot} from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
+
+class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean }> {
+  constructor(props: { children: ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: unknown, errorInfo: unknown) {
+    console.error("Uncaught error:", error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <div className="min-h-screen flex items-center justify-center text-white bg-slate-900">Something went wrong. Please check the console.</div>;
+    }
+
+    return this.props.children;
+  }
+}
 
 const container = document.getElementById('root');
 
@@ -13,6 +36,8 @@ if (!container) {
 
 createRoot(container).render(
   <StrictMode>
-    <App />
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
   </StrictMode>,
 );
