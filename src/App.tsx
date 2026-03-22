@@ -1,4 +1,4 @@
-import { Shield, Wifi, Code, ChevronRight, Globe, Lock, Menu, X } from "lucide-react";
+import { Shield, Wifi, Code, ChevronRight, Globe, Lock, Menu, X, Mail, MapPin, ExternalLink } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 
 function useInView(options = {}) {
@@ -48,6 +48,7 @@ export default function App() {
   const card3 = useInView();
   const companyText = useInView();
   const companyImage = useInView();
+  const contact = useInView();
 
   return (
     <div className="min-h-screen bg-slate-900 text-slate-50 font-sans selection:bg-blue-500/30 overflow-x-hidden">
@@ -67,6 +68,17 @@ export default function App() {
             {mobileMenuOpen ? <X /> : <Menu />}
           </button>
         </div>
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden bg-slate-900/95 backdrop-blur-md border-t border-white/10">
+            <div className="max-w-7xl mx-auto px-6 py-4 flex flex-col gap-4 text-sm font-medium text-slate-300">
+              <a href="#solutions" onClick={() => setMobileMenuOpen(false)} className="py-2 hover:text-blue-400 transition-colors">Solutions</a>
+              <a href="#company" onClick={() => setMobileMenuOpen(false)} className="py-2 hover:text-blue-400 transition-colors">Company</a>
+              <a href="#contact" onClick={() => setMobileMenuOpen(false)} className="py-2 text-blue-400">Contact Us</a>
+            </div>
+          </div>
+        )
+        }
       </nav>
 
       {/* Hero Section */}
@@ -222,6 +234,39 @@ export default function App() {
                   <span className="font-semibold tracking-wider">GLOBAL REACH</span>
                 </div>
                 <p className="text-sm text-slate-400">Fukuoka, Japan to the World.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact */}
+      <section id="contact" className="py-32 border-t border-white/5 relative overflow-hidden">
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[120px] pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+          <div
+            ref={contact.ref}
+            className="max-w-2xl mx-auto text-center"
+            style={{ opacity: contact.isInView ? 1 : 0, transform: contact.isInView ? "translateY(0)" : "translateY(20px)", transition: "opacity 0.6s ease-out, transform 0.6s ease-out" }}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Contact Us</h2>
+            <p className="text-slate-400 mb-12">お問い合わせはメールにてお気軽にご連絡ください。</p>
+            <div className="flex flex-col gap-6">
+              <a
+                href="mailto:contact@yamada-lab.co.jp"
+                className="flex items-center justify-center gap-3 px-8 py-5 rounded-2xl bg-white/[0.02] border border-white/10 hover:bg-white/[0.05] hover:border-blue-500/30 transition-all group"
+              >
+                <Mail className="w-5 h-5 text-blue-400 group-hover:scale-110 transition-transform" />
+                <span className="text-slate-300 font-medium">contact@yamada-lab.co.jp</span>
+                <ExternalLink className="w-4 h-4 text-slate-500 group-hover:text-blue-400 transition-colors ml-auto" />
+              </a>
+              <div className="flex items-start gap-3 px-8 py-5 rounded-2xl bg-white/[0.02] border border-white/10">
+                <MapPin className="w-5 h-5 text-blue-400 mt-0.5 shrink-0" />
+                <span className="text-slate-300 text-sm leading-relaxed text-left">
+                  〒812-0011<br />
+                  福岡県福岡市博多区博多駅前1丁目23番2号<br />
+                  ParkFront博多駅前1丁目5F-B
+                </span>
               </div>
             </div>
           </div>
