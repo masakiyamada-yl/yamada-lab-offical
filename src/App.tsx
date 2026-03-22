@@ -108,7 +108,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Shield className="w-8 h-8 text-blue-400" />
-            <span className="text-xl font-bold tracking-tight">山田ラボ合同会社</span>
+            <span className="text-xl font-bold tracking-tight">山田ラボ</span>
           </div>
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
             <a href="#solutions" className="hover:text-blue-400 transition-colors">事業内容</a>
@@ -248,7 +248,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-2">
             <Shield className="w-6 h-6 text-blue-500" />
-            <span className="text-lg font-bold tracking-tight text-slate-300">山田ラボ合同会社</span>
+            <span className="text-lg font-bold tracking-tight text-slate-300">山田ラボ</span>
           </div>
           <p className="text-sm text-slate-400">
             &copy; {new Date().getFullYear()} 山田ラボ合同会社 All rights reserved.
