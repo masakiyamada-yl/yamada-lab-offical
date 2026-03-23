@@ -194,6 +194,10 @@ export default function App() {
                   <span className="text-lg font-medium">山田 正樹</span>
                 </div>
                 <div className="flex flex-col border-b border-white/10 pb-6">
+                  <span className="text-sm text-slate-500 mb-2">法人番号</span>
+                  <span className="text-lg font-medium">2290003018208</span>
+                </div>
+                <div className="flex flex-col border-b border-white/10 pb-6">
                   <span className="text-sm text-slate-500 mb-2">所在地</span>
                   <span className="text-lg font-medium leading-relaxed">
                     〒812-0011<br />
