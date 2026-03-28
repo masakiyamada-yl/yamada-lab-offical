@@ -1,4 +1,5 @@
-import { Shield, Wifi, Code, ChevronRight, Lock, Menu, X, Mail, ExternalLink, LucideIcon } from "lucide-react";
+import { Shield, Code, ChevronRight, Menu, X, Mail, ExternalLink, ShieldCheck, Server, Globe, CheckCircle2 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 
 function useInView(options = {}) {
@@ -24,22 +25,48 @@ function useInView(options = {}) {
   return { ref, isInView };
 }
 
-type SolutionItem = {
+type CardItem = {
   icon: LucideIcon;
   title: string;
   description: string;
+};
+
+type SolutionItem = CardItem & {
   items: string[];
 };
 
+const strengthsData: CardItem[] = [
+  {
+    icon: ShieldCheck,
+    title: "堅牢なセキュリティ基盤",
+    description: "最新の電子認証技術とゼロトラストアーキテクチャで、あらゆるサイバー脅威から企業の重要資産を守ります。",
+  },
+  {
+    icon: Globe,
+    title: "シームレスな接続体験",
+    description: "OpenRoaming対応により、場所を問わず統一された認証基盤でスムーズなネットワーク接続環境を実現します。",
+  },
+  {
+    icon: Server,
+    title: "スケーラブルなインフラ",
+    description: "電気通信事業者として培ったノウハウで、ビジネスの成長に合わせて柔軟に拡張できるネットワーク基盤を構築します。",
+  },
+  {
+    icon: CheckCircle2,
+    title: "ワンストップサポート",
+    description: "設計・構築から運用・保守まで一貫して対応。専門チームが導入後も継続的にサポートします。",
+  },
+];
+
 const solutionData: SolutionItem[] = [
   {
-    icon: Wifi,
+    icon: Server,
     title: "通信インフラ",
     description: "電気通信事業法に基づく確かな電気通信事業を展開。コンピュータシステムおよび通信ネットワークのインフラ構築、設計、コンサルティングを提供します。",
     items: ["電気通信事業", "インフラ構築・設計", "ネットワークコンサルティング"],
   },
   {
-    icon: Lock,
+    icon: ShieldCheck,
     title: "認証ソリューション",
     description: "次世代の電子認証システムの企画、開発、運用及び保守。セキュアでシームレスな接続環境を実現します。",
     items: ["電子認証システム開発", "セキュリティ保守運用"],
@@ -52,13 +79,38 @@ const solutionData: SolutionItem[] = [
   },
 ];
 
+const companyInfo = [
+  { label: "社名", value: "山田ラボ合同会社（Yamada Lab LLC）" },
+  { label: "代表社員", value: "山田 正樹" },
+  { label: "法人番号", value: "2290003018208" },
+  { label: "所在地", value: "〒812-0011\n福岡県福岡市博多区博多駅前1丁目23番2号\nParkFront博多駅前1丁目5F-B" },
+];
+
+function StrengthCard({ data, delay }: { data: CardItem; delay: number }) {
+  const { ref, isInView } = useInView();
+  const Icon = data.icon;
+  return (
+    <div
+      ref={ref}
+      className="p-6 rounded-2xl bg-white/[0.03] border border-white/10 hover:bg-white/[0.05] hover:border-blue-500/30 transition-all group"
+      style={{ opacity: isInView ? 1 : 0, transform: isInView ? "translateY(0)" : "translateY(20px)", transition: `opacity 0.6s ease-out ${delay}s, transform 0.6s ease-out ${delay}s` }}
+    >
+      <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center mb-4 border border-blue-500/20 group-hover:bg-blue-500/20 transition-colors">
+        <Icon className="w-6 h-6 text-blue-400" />
+      </div>
+      <h3 className="text-lg font-bold mb-2">{data.title}</h3>
+      <p className="text-slate-400 text-sm leading-relaxed">{data.description}</p>
+    </div>
+  );
+}
+
 function SolutionCard({ data, delay }: { data: SolutionItem; delay: number }) {
   const { ref, isInView } = useInView();
   const Icon = data.icon;
   return (
     <div
       ref={ref}
-      className="p-8 rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-sm hover:bg-white/[0.04] transition-colors group"
+      className="p-8 rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-sm hover:bg-white/[0.04] hover:border-blue-500/20 transition-all group"
       style={{ opacity: isInView ? 1 : 0, transform: isInView ? "translateY(0)" : "translateY(20px)", transition: `opacity 0.6s ease-out ${delay}s, transform 0.6s ease-out ${delay}s` }}
     >
       <div className="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center mb-6 border border-blue-500/20 group-hover:border-blue-500/40 transition-colors">
@@ -69,7 +121,7 @@ function SolutionCard({ data, delay }: { data: SolutionItem; delay: number }) {
       <ul className="space-y-2 text-sm text-slate-500">
         {data.items.map((item) => (
           <li key={item} className="flex items-center gap-2">
-            <div className="w-1 h-1 rounded-full bg-blue-400 shrink-0" />
+            <div className="w-1.5 h-1.5 rounded-full bg-blue-400 shrink-0" />
             {item}
           </li>
         ))}
@@ -84,9 +136,7 @@ export default function App() {
   const [heroVisible, setHeroVisible] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -96,6 +146,7 @@ export default function App() {
     return () => clearTimeout(t);
   }, []);
 
+  const strengthsHeading = useInView();
   const solutionsHeading = useInView();
   const companyText = useInView();
   const companyImage = useInView();
@@ -103,14 +154,16 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-900 text-slate-50 font-sans selection:bg-blue-500/30 overflow-x-hidden">
+
       {/* Navigation */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? "bg-slate-900/80 backdrop-blur-md border-b border-white/10 py-4" : "bg-transparent py-6"}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? "bg-slate-900/90 backdrop-blur-md border-b border-white/10 py-4" : "bg-transparent py-6"}`}>
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Shield className="w-8 h-8 text-blue-400" />
             <span className="text-xl font-bold tracking-tight">山田ラボ</span>
           </div>
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+            <a href="#strengths" className="hover:text-blue-400 transition-colors">特長</a>
             <a href="#solutions" className="hover:text-blue-400 transition-colors">事業内容</a>
             <a href="#company" className="hover:text-blue-400 transition-colors">会社概要</a>
             <a href="#contact" className="px-5 py-2.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 hover:bg-blue-500/20 transition-all">お問い合わせ</a>
@@ -122,6 +175,7 @@ export default function App() {
         {mobileMenuOpen && (
           <div className="md:hidden bg-slate-900/95 backdrop-blur-md border-t border-white/10">
             <div className="max-w-7xl mx-auto px-6 py-4 flex flex-col gap-4 text-sm font-medium text-slate-300">
+              <a href="#strengths" onClick={() => setMobileMenuOpen(false)} className="py-2 hover:text-blue-400 transition-colors">特長</a>
               <a href="#solutions" onClick={() => setMobileMenuOpen(false)} className="py-2 hover:text-blue-400 transition-colors">事業内容</a>
               <a href="#company" onClick={() => setMobileMenuOpen(false)} className="py-2 hover:text-blue-400 transition-colors">会社概要</a>
               <a href="#contact" onClick={() => setMobileMenuOpen(false)} className="py-2 text-blue-400">お問い合わせ</a>
@@ -130,14 +184,16 @@ export default function App() {
         )}
       </nav>
 
-      {/* Hero Section */}
+      {/* Hero */}
       <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-500/20 rounded-full blur-[120px] opacity-50 pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-600/15 rounded-full blur-[140px] pointer-events-none" />
         <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10 text-center">
-          <div
-            style={{ opacity: heroVisible ? 1 : 0, transform: heroVisible ? "translateY(0)" : "translateY(30px)", transition: "opacity 0.8s ease-out, transform 0.8s ease-out" }}
-          >
-            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 leading-tight">
+          <div style={{ opacity: heroVisible ? 1 : 0, transform: heroVisible ? "translateY(0)" : "translateY(30px)", transition: "opacity 0.8s ease-out, transform 0.8s ease-out" }}>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-300 text-sm font-medium mb-8">
+              <ShieldCheck className="w-4 h-4" />
+              セキュアなネットワーク・認証ソリューション
+            </div>
+            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">ネットワーク</span>で、<br />
               ビジネスの未来を拓く。
             </h1>
@@ -146,25 +202,48 @@ export default function App() {
               高度なネットワークソリューションで企業の課題を解決します。
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a href="#solutions" className="w-full sm:w-auto px-8 py-4 rounded-full bg-blue-500 hover:bg-blue-600 text-white font-medium transition-all flex items-center justify-center gap-2">
+              <a href="#solutions" className="w-full sm:w-auto px-8 py-4 rounded-full bg-blue-500 hover:bg-blue-600 text-white font-semibold transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-500/25">
                 事業内容を見る
                 <ChevronRight className="w-4 h-4" />
+              </a>
+              <a href="#contact" className="w-full sm:w-auto px-8 py-4 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 font-medium transition-all flex items-center justify-center gap-2">
+                お問い合わせ
               </a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Business Solutions */}
-      <section id="solutions" className="py-32 relative">
+      {/* Strengths */}
+      <section id="strengths" className="py-24 border-t border-white/5">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div
+            ref={strengthsHeading.ref}
+            className="mb-12 md:mb-16 text-center"
+            style={{ opacity: strengthsHeading.isInView ? 1 : 0, transform: strengthsHeading.isInView ? "translateY(0)" : "translateY(20px)", transition: "opacity 0.6s ease-out, transform 0.6s ease-out" }}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">山田ラボが選ばれる理由</h2>
+            <p className="text-slate-400 max-w-xl mx-auto">ネットワーク・セキュリティの専門知識と電気通信事業者としての実績で、企業のデジタル基盤を支えます。</p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            {strengthsData.map((data, i) => (
+              <StrengthCard key={data.title} data={data} delay={0.1 * (i + 1)} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Solutions */}
+      <section id="solutions" className="py-24 border-t border-white/5 relative">
+        <div className="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-blue-950/20 to-transparent pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+          <div
             ref={solutionsHeading.ref}
-            className="mb-16 md:mb-24 text-center md:text-left"
+            className="mb-12 md:mb-16 text-center md:text-left"
             style={{ opacity: solutionsHeading.isInView ? 1 : 0, transform: solutionsHeading.isInView ? "translateY(0)" : "translateY(20px)", transition: "opacity 0.6s ease-out, transform 0.6s ease-out" }}
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-4">事業内容</h2>
-            <p className="text-slate-400 max-w-2xl mx-auto md:mx-0">高度なセキュリティと利便性を両立する、次世代のインフラストラクチャを構築します。</p>
+            <p className="text-slate-400 max-w-2xl mx-auto md:mx-0">高度なセキュリティと利便性を両立する、次世代のネットワークインフラストラクチャを構築します。</p>
           </div>
           <div className="grid md:grid-cols-3 gap-6 md:gap-8">
             {solutionData.map((data, i) => (
@@ -175,7 +254,7 @@ export default function App() {
       </section>
 
       {/* Company Profile */}
-      <section id="company" className="py-32 bg-slate-900/50 border-t border-white/5 relative overflow-hidden">
+      <section id="company" className="py-24 bg-slate-900/50 border-t border-white/5 relative overflow-hidden">
         <div className="absolute right-0 top-0 w-1/2 h-full bg-gradient-to-l from-blue-900/10 to-transparent pointer-events-none" />
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="grid md:grid-cols-2 gap-16 items-center">
@@ -184,30 +263,15 @@ export default function App() {
               style={{ opacity: companyText.isInView ? 1 : 0, transform: companyText.isInView ? "translateX(0)" : "translateX(-30px)", transition: "opacity 0.6s ease-out, transform 0.6s ease-out" }}
             >
               <h2 className="text-3xl md:text-4xl font-bold mb-12">会社概要</h2>
-              <div className="space-y-8">
-                <div className="flex flex-col border-b border-white/10 pb-6">
-                  <span className="text-sm text-slate-500 mb-2">社名</span>
-                  <span className="text-lg font-medium">山田ラボ合同会社 (Yamada Lab LLC)</span>
-                </div>
-                <div className="flex flex-col border-b border-white/10 pb-6">
-                  <span className="text-sm text-slate-500 mb-2">代表社員</span>
-                  <span className="text-lg font-medium">山田 正樹</span>
-                </div>
-                <div className="flex flex-col border-b border-white/10 pb-6">
-                  <span className="text-sm text-slate-500 mb-2">法人番号</span>
-                  <span className="text-lg font-medium">2290003018208</span>
-                </div>
-                <div className="flex flex-col border-b border-white/10 pb-6">
-                  <span className="text-sm text-slate-500 mb-2">所在地</span>
-                  <span className="text-lg font-medium leading-relaxed">
-                    〒812-0011<br />
-                    福岡県福岡市博多区博多駅前1丁目23番2号<br />
-                    ParkFront博多駅前1丁目5F-B
-                  </span>
-                </div>
-              </div>
+              <dl className="space-y-6">
+                {companyInfo.map(({ label, value }) => (
+                  <div key={label} className="flex flex-col border-b border-white/10 pb-6">
+                    <dt className="text-sm text-slate-500 mb-2">{label}</dt>
+                    <dd className="text-lg font-medium leading-relaxed whitespace-pre-line">{value}</dd>
+                  </div>
+                ))}
+              </dl>
             </div>
-
             <div
               ref={companyImage.ref}
               className="relative rounded-3xl overflow-hidden border border-white/10 aspect-square md:aspect-[4/3] bg-slate-800"
@@ -226,7 +290,7 @@ export default function App() {
       </section>
 
       {/* Contact */}
-      <section id="contact" className="py-32 border-t border-white/5 relative overflow-hidden">
+      <section id="contact" className="py-24 border-t border-white/5 relative overflow-hidden">
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[120px] pointer-events-none" />
         <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
           <div
@@ -235,10 +299,10 @@ export default function App() {
             style={{ opacity: contact.isInView ? 1 : 0, transform: contact.isInView ? "translateY(0)" : "translateY(20px)", transition: "opacity 0.6s ease-out, transform 0.6s ease-out" }}
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-4">お問い合わせ</h2>
-            <p className="text-slate-400 mb-12">お問い合わせはメールにてお気軽にご連絡ください。</p>
+            <p className="text-slate-400 mb-10">ネットワーク・セキュリティに関するご相談はお気軽にご連絡ください。</p>
             <a
               href="mailto:contact@yamada-lab.co.jp"
-              className="flex items-center justify-center gap-3 px-8 py-5 rounded-2xl bg-white/[0.02] border border-white/10 hover:bg-white/[0.05] hover:border-blue-500/30 transition-all group"
+              className="flex items-center justify-center gap-3 px-8 py-5 rounded-2xl bg-white/[0.02] border border-white/10 hover:bg-white/[0.05] hover:border-blue-500/30 transition-all group max-w-md mx-auto"
             >
               <Mail className="w-5 h-5 text-blue-400 group-hover:scale-110 transition-transform" />
               <span className="text-slate-300 font-medium">contact@yamada-lab.co.jp</span>
