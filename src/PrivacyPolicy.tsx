@@ -123,15 +123,14 @@ export default function PrivacyPolicy() {
 
       {/* Footer */}
       <footer className="py-12 border-t border-slate-200 bg-slate-50">
-        <div className="max-w-4xl mx-auto px-6 md:px-12 flex flex-row items-center justify-between gap-4">
+        <div className="max-w-4xl mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <Shield className="w-6 h-6 text-blue-600" />
             <span className="text-lg font-bold tracking-tight text-slate-700">山田ラボ</span>
           </div>
-          <div className="flex flex-row items-center gap-3 text-sm text-slate-600">
-            <Link to="/privacy" className="hover:text-blue-600 transition-colors whitespace-nowrap">プライバシーポリシー</Link>
-            <span className="text-slate-300">|</span>
-            <p className="text-slate-500 whitespace-nowrap">&copy; {new Date().getFullYear()} 山田ラボ合同会社</p>
+          <div className="flex flex-col items-center md:items-end gap-1 text-sm text-slate-600">
+            <Link to="/privacy" className="hover:text-blue-600 transition-colors">プライバシーポリシー</Link>
+            <p className="text-slate-500">&copy; {new Date().getFullYear()} 山田ラボ合同会社</p>
           </div>
         </div>
       </footer>
