@@ -1,4 +1,5 @@
 import { Shield, Code, ChevronRight, Menu, X, Mail, ExternalLink, ShieldCheck, Server, CheckCircle2 } from "lucide-react";
+import { Link } from "react-router-dom";
 import type { LucideIcon } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 
@@ -313,9 +314,10 @@ export default function App() {
             <Shield className="w-6 h-6 text-blue-600" />
             <span className="text-lg font-bold tracking-tight text-slate-700">山田ラボ</span>
           </div>
-          <p className="text-sm text-slate-600">
-            &copy; {new Date().getFullYear()} 山田ラボ合同会社 All rights reserved.
-          </p>
+          <div className="flex flex-col items-center md:items-end gap-1.5 text-sm text-slate-600">
+            <Link to="/privacy" className="hover:text-blue-600 transition-colors">プライバシーポリシー</Link>
+            <p className="text-slate-500">&copy; {new Date().getFullYear()} 山田ラボ合同会社 All rights reserved.</p>
+          </div>
         </div>
       </footer>
     </div>

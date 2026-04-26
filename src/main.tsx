@@ -1,6 +1,8 @@
 import {StrictMode, Component, ReactNode} from 'react';
 import {createRoot} from 'react-dom/client';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import App from './App.tsx';
+import PrivacyPolicy from './PrivacyPolicy.tsx';
 import './index.css';
 
 class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean }> {
@@ -37,7 +39,12 @@ if (!container) {
 createRoot(container).render(
   <StrictMode>
     <ErrorBoundary>
-      <App />
+      <HashRouter>
+        <Routes>
+          <Route path="/" element={<App />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+        </Routes>
+      </HashRouter>
     </ErrorBoundary>
   </StrictMode>,
 );
