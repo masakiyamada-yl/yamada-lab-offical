@@ -123,7 +123,7 @@ export default function PrivacyPolicy() {
 
       {/* Footer */}
       <footer className="py-12 border-t border-slate-200 bg-slate-50">
-        <div className="max-w-4xl mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-3">
+        <div className="max-w-4xl mx-auto px-6 md:px-12 flex flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <Shield className="w-6 h-6 text-blue-600" />
             <span className="text-lg font-bold tracking-tight text-slate-700">山田ラボ</span>
