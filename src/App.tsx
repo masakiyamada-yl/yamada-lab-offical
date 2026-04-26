@@ -76,9 +76,9 @@ const solutionData: SolutionItem[] = [
 ];
 
 const companyInfo = [
-  { label: "社名", value: "山田ラボ合同会社（Yamada Lab LLC）" },
+  { label: "社名", value: "山田ラボ合同会社（Yamada Lab LLC）\n法人番号：2290003018208" },
+  { label: "設立年月日", value: "2026年3月23日" },
   { label: "代表社員", value: "山田 正樹" },
-  { label: "法人番号", value: "2290003018208" },
   { label: "所在地", value: "〒812-0011\n福岡県福岡市博多区博多駅前1丁目23番2号\nParkFront博多駅前1丁目5F-B" },
   { label: "許認可", value: "届出電気通信事業者（H-08-02113）" },
 ];
@@ -143,6 +143,10 @@ export default function App() {
     return () => clearTimeout(t);
   }, []);
 
+  const scrollTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   const strengthsHeading = useInView();
   const solutionsHeading = useInView();
   const companyText = useInView();
@@ -160,10 +164,10 @@ export default function App() {
             <span className="text-xl font-bold tracking-tight text-slate-900">山田ラボ</span>
           </div>
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-700">
-            <a href="#strengths" className="hover:text-blue-600 transition-colors">特長</a>
-            <a href="#solutions" className="hover:text-blue-600 transition-colors">事業内容</a>
-            <a href="#company" className="hover:text-blue-600 transition-colors">会社概要</a>
-            <a href="#contact" className="px-5 py-2.5 rounded-full bg-blue-50 text-blue-600 border border-blue-200 hover:bg-blue-100 transition-all">お問い合わせ</a>
+            <button onClick={() => scrollTo('strengths')} className="hover:text-blue-600 transition-colors">特長</button>
+            <button onClick={() => scrollTo('solutions')} className="hover:text-blue-600 transition-colors">事業内容</button>
+            <button onClick={() => scrollTo('company')} className="hover:text-blue-600 transition-colors">会社概要</button>
+            <button onClick={() => scrollTo('contact')} className="px-5 py-2.5 rounded-full bg-blue-50 text-blue-600 border border-blue-200 hover:bg-blue-100 transition-all">お問い合わせ</button>
           </div>
           <button className="md:hidden text-slate-700" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label={mobileMenuOpen ? "メニューを閉じる" : "メニューを開く"}>
             {mobileMenuOpen ? <X /> : <Menu />}
@@ -172,10 +176,10 @@ export default function App() {
         {mobileMenuOpen && (
           <div className="md:hidden bg-white/95 backdrop-blur-md border-t border-slate-200">
             <div className="max-w-4xl mx-auto px-6 py-4 flex flex-col gap-4 text-sm font-medium text-slate-700">
-              <a href="#strengths" onClick={() => setMobileMenuOpen(false)} className="py-2 hover:text-blue-600 transition-colors">特長</a>
-              <a href="#solutions" onClick={() => setMobileMenuOpen(false)} className="py-2 hover:text-blue-600 transition-colors">事業内容</a>
-              <a href="#company" onClick={() => setMobileMenuOpen(false)} className="py-2 hover:text-blue-600 transition-colors">会社概要</a>
-              <a href="#contact" onClick={() => setMobileMenuOpen(false)} className="py-2 text-blue-600">お問い合わせ</a>
+              <button onClick={() => { setMobileMenuOpen(false); scrollTo('strengths'); }} className="py-2 text-left hover:text-blue-600 transition-colors">特長</button>
+              <button onClick={() => { setMobileMenuOpen(false); scrollTo('solutions'); }} className="py-2 text-left hover:text-blue-600 transition-colors">事業内容</button>
+              <button onClick={() => { setMobileMenuOpen(false); scrollTo('company'); }} className="py-2 text-left hover:text-blue-600 transition-colors">会社概要</button>
+              <button onClick={() => { setMobileMenuOpen(false); scrollTo('contact'); }} className="py-2 text-left text-blue-600">お問い合わせ</button>
             </div>
           </div>
         )}
@@ -199,13 +203,13 @@ export default function App() {
               高度なネットワークソリューションで企業の課題を解決します。
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a href="#solutions" className="w-full sm:w-auto px-8 py-4 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-semibold transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-500/25">
+              <button onClick={() => scrollTo('solutions')} className="w-full sm:w-auto px-8 py-4 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-semibold transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-500/25">
                 事業内容を見る
                 <ChevronRight className="w-4 h-4" />
-              </a>
-              <a href="#contact" className="w-full sm:w-auto px-8 py-4 rounded-full bg-white hover:bg-slate-50 border border-slate-200 text-slate-600 font-medium transition-all flex items-center justify-center gap-2 shadow-sm">
+              </button>
+              <button onClick={() => scrollTo('contact')} className="w-full sm:w-auto px-8 py-4 rounded-full bg-white hover:bg-slate-50 border border-slate-200 text-slate-600 font-medium transition-all flex items-center justify-center gap-2 shadow-sm">
                 お問い合わせ
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -309,12 +313,12 @@ export default function App() {
 
       {/* Footer */}
       <footer className="py-12 border-t border-slate-200 bg-slate-50">
-        <div className="max-w-4xl mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="max-w-4xl mx-auto px-6 md:px-12 flex flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <Shield className="w-6 h-6 text-blue-600" />
             <span className="text-lg font-bold tracking-tight text-slate-700">山田ラボ</span>
           </div>
-          <div className="flex flex-col items-center md:items-end gap-1.5 text-sm text-slate-600">
+          <div className="flex flex-col items-end gap-1.5 text-sm text-slate-600">
             <Link to="/privacy" className="hover:text-blue-600 transition-colors">プライバシーポリシー</Link>
             <p className="text-slate-500">&copy; {new Date().getFullYear()} 山田ラボ合同会社 All rights reserved.</p>
           </div>

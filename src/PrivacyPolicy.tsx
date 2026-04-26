@@ -24,7 +24,7 @@ export default function PrivacyPolicy() {
       {/* Content */}
       <main className="max-w-4xl mx-auto px-6 md:px-12 py-16">
         <h1 className="text-3xl md:text-4xl font-bold mb-2 text-slate-900">プライバシーポリシー</h1>
-        <p className="text-sm text-slate-500 mb-12">制定日：2024年4月1日</p>
+        <p className="text-sm text-slate-500 mb-12">制定日：2026年3月23日</p>
 
         <div className="space-y-10 text-slate-700 leading-relaxed">
 
@@ -123,12 +123,12 @@ export default function PrivacyPolicy() {
 
       {/* Footer */}
       <footer className="py-12 border-t border-slate-200 bg-slate-50">
-        <div className="max-w-4xl mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="max-w-4xl mx-auto px-6 md:px-12 flex flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <Shield className="w-6 h-6 text-blue-600" />
             <span className="text-lg font-bold tracking-tight text-slate-700">山田ラボ</span>
           </div>
-          <div className="flex flex-col items-center md:items-end gap-1.5 text-sm text-slate-600">
+          <div className="flex flex-col items-end gap-1.5 text-sm text-slate-600">
             <Link to="/privacy" className="hover:text-blue-600 transition-colors">プライバシーポリシー</Link>
             <p className="text-slate-500">&copy; {new Date().getFullYear()} 山田ラボ合同会社 All rights reserved.</p>
           </div>
