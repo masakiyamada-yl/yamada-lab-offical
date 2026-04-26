@@ -79,6 +79,7 @@ const companyInfo = [
   { label: "代表社員", value: "山田 正樹" },
   { label: "法人番号", value: "2290003018208" },
   { label: "所在地", value: "〒812-0011\n福岡県福岡市博多区博多駅前1丁目23番2号\nParkFront博多駅前1丁目5F-B" },
+  { label: "許認可", value: "届出電気通信事業者（H-08-02113）" },
 ];
 
 function StrengthCard({ data, delay }: { data: CardItem; delay: number }) {
@@ -87,7 +88,7 @@ function StrengthCard({ data, delay }: { data: CardItem; delay: number }) {
   return (
     <div
       ref={ref}
-      className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-md hover:border-blue-300 transition-all group"
+      className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-md hover:border-blue-500 transition-all group"
       style={{ opacity: isInView ? 1 : 0, transform: isInView ? "translateY(0)" : "translateY(20px)", transition: `opacity 0.6s ease-out ${delay}s, transform 0.6s ease-out ${delay}s` }}
     >
       <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center mb-4 border border-blue-100 group-hover:bg-blue-100 transition-colors">
@@ -105,10 +106,10 @@ function SolutionCard({ data, delay }: { data: SolutionItem; delay: number }) {
   return (
     <div
       ref={ref}
-      className="p-8 rounded-3xl bg-white border border-slate-200 shadow-sm hover:shadow-md hover:border-blue-300 transition-all group"
+      className="p-8 rounded-3xl bg-white border border-slate-200 shadow-sm hover:shadow-md hover:border-blue-500 transition-all group"
       style={{ opacity: isInView ? 1 : 0, transform: isInView ? "translateY(0)" : "translateY(20px)", transition: `opacity 0.6s ease-out ${delay}s, transform 0.6s ease-out ${delay}s` }}
     >
-      <div className="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center mb-6 border border-blue-100 group-hover:border-blue-300 transition-colors">
+      <div className="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center mb-6 border border-blue-100 group-hover:border-blue-500 transition-colors">
         <Icon className="w-7 h-7 text-blue-600" />
       </div>
       <h3 className="text-xl font-bold mb-4 text-slate-900">{data.title}</h3>
@@ -295,7 +296,7 @@ export default function App() {
             <p className="text-slate-600 mb-10">ネットワーク・セキュリティに関するご相談はお気軽にご連絡ください。</p>
             <a
               href="mailto:contact@yamada-lab.co.jp"
-              className="flex items-center justify-center gap-3 px-8 py-5 rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-md hover:border-blue-300 transition-all group max-w-md mx-auto"
+              className="flex items-center justify-center gap-3 px-8 py-5 rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-md hover:border-blue-500 transition-all group max-w-md mx-auto"
             >
               <Mail className="w-5 h-5 text-blue-600 group-hover:scale-110 transition-transform" />
               <span className="text-slate-700 font-medium">contact@yamada-lab.co.jp</span>
