@@ -42,11 +42,6 @@ const strengthsData: CardItem[] = [
     description: "最新の電子認証技術とゼロトラストアーキテクチャで、あらゆるサイバー脅威から企業の重要資産を守ります。",
   },
   {
-    icon: Globe,
-    title: "シームレスな接続体験",
-    description: "OpenRoaming対応により、場所を問わず統一された認証基盤でスムーズなネットワーク接続環境を実現します。",
-  },
-  {
     icon: Server,
     title: "スケーラブルなインフラ",
     description: "電気通信事業者として培ったノウハウで、ビジネスの成長に合わせて柔軟に拡張できるネットワーク基盤を構築します。",
