@@ -189,7 +189,7 @@ export default function App() {
               <ShieldCheck className="w-4 h-4" />
               セキュアなネットワーク・認証ソリューション
             </div>
-            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight text-slate-900">
+            <h1 className="text-3xl sm:text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight text-slate-900">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400">ネットワーク</span>で、<br />
               ビジネスの未来を拓く。
             </h1>
