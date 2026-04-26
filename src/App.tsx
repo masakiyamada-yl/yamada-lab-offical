@@ -153,7 +153,7 @@ export default function App() {
 
       {/* Navigation */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? "bg-white/95 backdrop-blur-md border-b border-slate-200 py-4" : "bg-white/80 backdrop-blur-sm border-b border-slate-100 py-6"}`}>
-        <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
+        <div className="max-w-4xl mx-auto px-6 md:px-12 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Shield className="w-8 h-8 text-blue-600" />
             <span className="text-xl font-bold tracking-tight text-slate-900">山田ラボ</span>
@@ -170,7 +170,7 @@ export default function App() {
         </div>
         {mobileMenuOpen && (
           <div className="md:hidden bg-white/95 backdrop-blur-md border-t border-slate-200">
-            <div className="max-w-7xl mx-auto px-6 py-4 flex flex-col gap-4 text-sm font-medium text-slate-700">
+            <div className="max-w-4xl mx-auto px-6 py-4 flex flex-col gap-4 text-sm font-medium text-slate-700">
               <a href="#strengths" onClick={() => setMobileMenuOpen(false)} className="py-2 hover:text-blue-600 transition-colors">特長</a>
               <a href="#solutions" onClick={() => setMobileMenuOpen(false)} className="py-2 hover:text-blue-600 transition-colors">事業内容</a>
               <a href="#company" onClick={() => setMobileMenuOpen(false)} className="py-2 hover:text-blue-600 transition-colors">会社概要</a>
@@ -183,7 +183,7 @@ export default function App() {
       {/* Hero */}
       <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden bg-gradient-to-b from-blue-50/60 to-white">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-100/60 rounded-full blur-[140px] pointer-events-none" />
-        <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10 text-center">
+        <div className="max-w-4xl mx-auto px-6 md:px-12 relative z-10 text-center">
           <div style={{ opacity: heroVisible ? 1 : 0, transform: heroVisible ? "translateY(0)" : "translateY(30px)", transition: "opacity 0.8s ease-out, transform 0.8s ease-out" }}>
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-200 text-blue-600 text-sm font-medium mb-8">
               <ShieldCheck className="w-4 h-4" />
@@ -212,7 +212,7 @@ export default function App() {
 
       {/* Strengths */}
       <section id="strengths" className="py-24 border-t border-slate-200 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-6 md:px-12">
+        <div className="max-w-4xl mx-auto px-6 md:px-12">
           <div
             ref={strengthsHeading.ref}
             className="mb-12 md:mb-16 text-center"
@@ -231,7 +231,7 @@ export default function App() {
 
       {/* Solutions */}
       <section id="solutions" className="py-24 border-t border-slate-200 relative bg-white">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+        <div className="max-w-4xl mx-auto px-6 md:px-12 relative z-10">
           <div
             ref={solutionsHeading.ref}
             className="mb-12 md:mb-16 text-center md:text-left"
@@ -250,7 +250,7 @@ export default function App() {
 
       {/* Company Profile */}
       <section id="company" className="py-24 bg-slate-50 border-t border-slate-200 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 md:px-12">
+        <div className="max-w-4xl mx-auto px-6 md:px-12">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div
               ref={companyText.ref}
@@ -286,7 +286,7 @@ export default function App() {
       {/* Contact */}
       <section id="contact" className="py-24 border-t border-slate-200 relative overflow-hidden bg-white">
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-50 rounded-full blur-[120px] pointer-events-none" />
-        <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+        <div className="max-w-4xl mx-auto px-6 md:px-12 relative z-10">
           <div
             ref={contact.ref}
             className="max-w-2xl mx-auto text-center"
@@ -308,7 +308,7 @@ export default function App() {
 
       {/* Footer */}
       <footer className="py-12 border-t border-slate-200 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="max-w-4xl mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-2">
             <Shield className="w-6 h-6 text-blue-600" />
             <span className="text-lg font-bold tracking-tight text-slate-700">山田ラボ</span>
