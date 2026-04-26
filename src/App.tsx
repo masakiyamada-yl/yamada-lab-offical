@@ -318,9 +318,10 @@ export default function App() {
             <Shield className="w-6 h-6 text-blue-600" />
             <span className="text-lg font-bold tracking-tight text-slate-700">山田ラボ</span>
           </div>
-          <div className="flex flex-col items-end gap-1.5 text-sm text-slate-600">
-            <Link to="/privacy" className="hover:text-blue-600 transition-colors">プライバシーポリシー</Link>
-            <p className="text-slate-500">&copy; {new Date().getFullYear()} 山田ラボ合同会社 All rights reserved.</p>
+          <div className="flex flex-row items-center gap-3 text-sm text-slate-600">
+            <Link to="/privacy" className="hover:text-blue-600 transition-colors whitespace-nowrap">プライバシーポリシー</Link>
+            <span className="text-slate-300">|</span>
+            <p className="text-slate-500 whitespace-nowrap">&copy; {new Date().getFullYear()} 山田ラボ合同会社</p>
           </div>
         </div>
       </footer>
