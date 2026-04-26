@@ -1,4 +1,4 @@
-import { Shield, Code, ChevronRight, Menu, X, Mail, ExternalLink, ShieldCheck, Server, Globe, CheckCircle2 } from "lucide-react";
+import { Shield, Code, ChevronRight, Menu, X, Mail, ExternalLink, ShieldCheck, Server, CheckCircle2 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 
@@ -220,7 +220,7 @@ export default function App() {
             <h2 className="text-3xl md:text-4xl font-bold mb-4">山田ラボが選ばれる理由</h2>
             <p className="text-slate-400 max-w-xl mx-auto">ネットワーク・セキュリティの専門知識と電気通信事業者としての実績で、企業のデジタル基盤を支えます。</p>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+          <div className="grid sm:grid-cols-3 gap-4 md:gap-6">
             {strengthsData.map((data, i) => (
               <StrengthCard key={data.title} data={data} delay={0.1 * (i + 1)} />
             ))}
