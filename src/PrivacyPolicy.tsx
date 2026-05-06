@@ -24,7 +24,8 @@ export default function PrivacyPolicy() {
       {/* Content */}
       <main className="max-w-4xl mx-auto px-6 md:px-12 py-16">
         <h1 className="text-3xl md:text-4xl font-bold mb-2 text-slate-900">プライバシーポリシー</h1>
-        <p className="text-sm text-slate-500 mb-12">制定日：2026年3月23日</p>
+        <p className="text-sm text-slate-500 mb-1">制定日：2026年3月23日</p>
+        <p className="text-sm text-slate-500 mb-12">最終改定日：2026年5月6日</p>
 
         <div className="space-y-10 text-slate-700 leading-relaxed">
 
@@ -71,42 +72,68 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold mb-4 text-slate-900">第4条（業務委託）</h2>
+            <h2 className="text-xl font-bold mb-4 text-slate-900">第4条（外国にある第三者への提供）</h2>
+            <p className="mb-3">
+              当社は、お客様の個人情報を以下のとおり外国にある事業者に提供することがあります。これは、当社が利用するクラウドサービスの運営事業者が外国に所在するためです。
+            </p>
+            <h3 className="text-base font-bold mt-6 mb-2 text-slate-800">1. 移転先の事業者および所在国</h3>
+            <p className="mb-3 text-slate-600">
+              Google LLC（米国カリフォルニア州。Google Workspace および Google Cloud Platform の提供元）
+            </p>
+            <h3 className="text-base font-bold mt-6 mb-2 text-slate-800">2. 当該事業者が講ずる個人情報の保護のための措置</h3>
+            <p className="mb-3 text-slate-600">
+              当社は、Google LLC との間で Cloud Data Processing Addendum（CDPA: クラウドデータ処理に関する追補契約）に同意しています（2026年5月6日同意）。当該 CDPA には、欧州委員会が承認した標準契約条項（SCCs）に相当する条項が含まれており、Google LLC は契約上、個人データの処理に際して適切な技術的および組織的な安全管理措置を講ずる義務を負っています。
+            </p>
+            <h3 className="text-base font-bold mt-6 mb-2 text-slate-800">3. 移転先国（米国）における個人情報の保護に関する制度</h3>
+            <p className="mb-3 text-slate-600">
+              米国には、日本の個人情報保護法に相当する包括的な連邦レベルの個人情報保護法は存在しません。ただし、カリフォルニア州消費者プライバシー法（CCPA/CPRA）をはじめとする州法、医療情報に関するHIPAA、金融情報に関するGLBA等の分野別の連邦法、及び連邦取引委員会（FTC）による執行措置が個人情報の保護に寄与しています。当社は、上記 CDPA の契約上の保護措置により、これらの制度上の相違を補完しています。
+            </p>
+            <h3 className="text-base font-bold mt-6 mb-2 text-slate-800">4. 相当措置の継続的な確認</h3>
+            <p className="mb-3 text-slate-600">
+              当社は、Google LLC が CDPA に基づき講ずべき措置を継続的に実施しているかについて、年1回以上確認を行い、問題が確認された場合は適切な対応を講じます。
+            </p>
+            <p className="mt-4 text-xs text-slate-400">
+              ※ 本条の記載は暫定版です。当社は今後、法令およびガイドラインの要求に基づき、本ポリシーの包括的な改定を予定しています。
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-xl font-bold mb-4 text-slate-900">第5条（業務委託）</h2>
             <p>
               当社は、利用目的の達成に必要な範囲において、業務を外部に委託する場合があります。その際は、委託先に対して個人情報の適切な取扱いを義務付け、必要かつ適切な監督を行います。
             </p>
           </section>
 
           <section>
-            <h2 className="text-xl font-bold mb-4 text-slate-900">第5条（個人情報の安全管理）</h2>
+            <h2 className="text-xl font-bold mb-4 text-slate-900">第6条（個人情報の安全管理）</h2>
             <p>
               当社は、個人情報の漏えい、滅失またはき損の防止その他個人情報の安全管理のために必要かつ適切な措置を講じます。また、個人情報を取り扱う従業員に対して、適切な教育・監督を行います。
             </p>
           </section>
 
           <section>
-            <h2 className="text-xl font-bold mb-4 text-slate-900">第6条（個人情報の開示・訂正・利用停止等）</h2>
+            <h2 className="text-xl font-bold mb-4 text-slate-900">第7条（個人情報の開示・訂正・利用停止等）</h2>
             <p>
               お客様は、当社が保有する自己の個人情報について、開示・訂正・追加・削除・利用停止・消去・第三者提供の停止を請求することができます。ご請求は下記お問い合わせ窓口までご連絡ください。法令に定める要件を満たす場合、合理的な期間内に対応いたします。
             </p>
           </section>
 
           <section>
-            <h2 className="text-xl font-bold mb-4 text-slate-900">第7条（Cookieおよびアクセス解析）</h2>
+            <h2 className="text-xl font-bold mb-4 text-slate-900">第8条（Cookieおよびアクセス解析）</h2>
             <p>
               当社ウェブサイトでは、現時点においてCookieを使用したアクセス解析ツールは導入しておりません。今後導入する場合は、本ポリシーを改定してお知らせします。
             </p>
           </section>
 
           <section>
-            <h2 className="text-xl font-bold mb-4 text-slate-900">第8条（プライバシーポリシーの改定）</h2>
+            <h2 className="text-xl font-bold mb-4 text-slate-900">第9条（プライバシーポリシーの改定）</h2>
             <p>
               当社は、法令の改正やサービスの変更等に応じて、本ポリシーを改定することがあります。改定した場合は、当社ウェブサイトに掲載することによりお知らせします。
             </p>
           </section>
 
           <section>
-            <h2 className="text-xl font-bold mb-4 text-slate-900">第9条（お問い合わせ窓口）</h2>
+            <h2 className="text-xl font-bold mb-4 text-slate-900">第10条（お問い合わせ窓口）</h2>
             <p className="mb-4">個人情報の取扱いに関するご意見・ご質問は、下記までご連絡ください。</p>
             <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200 space-y-2 text-sm">
               <p><span className="text-slate-500">社名</span>　山田ラボ合同会社</p>
