@@ -39,3 +39,17 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  notify-slack-on-failure:
+    needs: [build, deploy]
+    if: ${{ failure() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post Slack notification
+        uses: slackapi/slack-github-action@v2.1.0
+        with:
+          method: chat.postMessage
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          payload: |
+            channel: "${{ vars.SLACK_GITHUB_ACTIVITY_CHANNEL }}"
+            text: ":x: *${{ github.repository }}* `${{ github.workflow }}` failed on `${{ github.ref_name }}` <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|view run #${{ github.run_number }}>"
