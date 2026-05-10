@@ -3,7 +3,8 @@
  *
  * corp site `/notice` 障害情報公知ページの prebuild step。
  * `content/notice/incidents/*.yaml` を読み込み、schema 検証 + 機密検出を行い、
- * `dist/notice/incidents.json` および `dist/notice/feed.xml` (Atom 1.0) を生成する。
+ * `public/notice/incidents.json` および `public/notice/feed.xml` (Atom 1.0) を生成する。
+ * (vite が public/* を dist/* に copy through するため、dev/prod 双方で動く)
  *
  * 設計書: docs/notice-page-design-v0.1.md §4 / §7
  * 実行: `tsx scripts/build-notice.ts` （npm run prebuild から呼ぶ前提）
@@ -18,7 +19,7 @@ import { parse } from 'yaml';
 // --- 定数 ----------------------------------------------------------------
 
 const CONTENT_DIR = path.resolve(process.cwd(), 'content/notice/incidents');
-const OUTPUT_DIR = path.resolve(process.cwd(), 'dist/notice');
+const OUTPUT_DIR = path.resolve(process.cwd(), 'public/notice');
 const SITE_BASE = 'https://yamada-lab.co.jp';
 const FEED_SELF_URL = `${SITE_BASE}/notice/feed.xml`;
 const FEED_ALTERNATE_URL = `${SITE_BASE}/#/notice`;
