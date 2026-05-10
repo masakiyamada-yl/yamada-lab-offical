@@ -1,0 +1,18 @@
+id: "2026-05-10-001-sample"
+severity: info
+status: resolved
+title: "サンプル: 障害情報公知ページの稼働確認"
+affected_services:
+  - "サンプル(本番影響なし)"
+started_at: "2026-05-10T11:00:00+09:00"
+resolved_at: "2026-05-10T11:30:00+09:00"
+summary: |
+  これは障害情報公知ページの動作確認用サンプルエントリです。
+  Phase A 実装完了時点で表示されることを確認するためのダミーで、
+  Phase B 以降に削除予定です。
+updates:
+  - at: "2026-05-10T11:00:00+09:00"
+    body: "サンプルエントリ作成。"
+  - at: "2026-05-10T11:30:00+09:00"
+    body: "Phase A 動作確認のため、resolved として登録。"
+contact: "noc@yamada-lab.co.jp"
