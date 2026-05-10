@@ -319,7 +319,10 @@ export default function App() {
             <span className="text-lg font-bold tracking-tight text-slate-700">山田ラボ</span>
           </div>
           <div className="flex flex-col items-center md:items-end gap-1 text-sm text-slate-600">
-            <Link to="/privacy" className="hover:text-blue-600 transition-colors">プライバシーポリシー</Link>
+            <div className="flex gap-4">
+              <Link to="/notice" className="hover:text-blue-600 transition-colors">障害情報</Link>
+              <Link to="/privacy" className="hover:text-blue-600 transition-colors">プライバシーポリシー</Link>
+            </div>
             <p className="text-slate-500">&copy; {new Date().getFullYear()} 山田ラボ合同会社</p>
           </div>
         </div>
