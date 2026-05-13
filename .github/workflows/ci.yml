@@ -24,6 +24,8 @@ jobs:
         run: npm install
       - name: Build
         run: npm run build
+      - name: Sync Chrome / ChromeDriver versions (for axe)
+        run: npx -y browser-driver-manager@latest install chrome
       - name: Accessibility check (axe-core)
         run: npm run accessibility:check
         continue-on-error: true
