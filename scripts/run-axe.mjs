@@ -15,6 +15,7 @@
 
 import { spawn } from 'node:child_process';
 import { setTimeout as sleep } from 'node:timers/promises';
+import { mkdirSync } from 'node:fs';
 
 const HOST = '127.0.0.1';
 const PORT = 4173;
@@ -49,15 +50,18 @@ async function waitForReady(server) {
   throw new Error(`vite preview did not become ready within ${MAX_WAIT_MS}ms`);
 }
 
-/** axe をターゲット URL 群に対して実行 */
+/** axe をターゲット URL 群に対して実行（詳細 JSON も保存） */
 function runAxe() {
   return new Promise((resolve) => {
     const urls = PATHS.map((p) => `${BASE}${p}`);
+    mkdirSync('reports', { recursive: true });
     const args = [
       '@axe-core/cli',
       ...urls,
       '--exit',
       '--tags', 'wcag2a,wcag2aa,wcag21a,wcag21aa',
+      '--save', 'reports/axe-results.json',
+      '--dir', 'reports',
     ];
     const proc = spawn('npx', args, { stdio: 'inherit', env: process.env });
     proc.on('exit', (code) => resolve(code ?? 1));

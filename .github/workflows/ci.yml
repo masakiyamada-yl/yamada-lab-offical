@@ -29,6 +29,13 @@ jobs:
       - name: Accessibility check (axe-core)
         run: npm run accessibility:check
         continue-on-error: true
+      - name: Upload accessibility report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: axe-results
+          path: reports/axe-results.json
+          if-no-files-found: warn
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
