@@ -192,7 +192,7 @@ export default function App() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-100/60 rounded-full blur-[140px] pointer-events-none" />
         <div className="max-w-4xl mx-auto px-6 md:px-12 relative z-10 text-center">
           <div style={{ opacity: heroVisible ? 1 : 0, transform: heroVisible ? "translateY(0)" : "translateY(30px)", transition: "opacity 0.8s ease-out, transform 0.8s ease-out" }}>
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-200 text-blue-600 text-sm font-medium mb-8">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-sm font-medium mb-8">
               <ShieldCheck className="w-4 h-4" />
               セキュアなネットワーク・認証ソリューション
             </div>
@@ -205,11 +205,11 @@ export default function App() {
               高度なネットワークソリューションで企業の課題を解決します。
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <button onClick={() => scrollTo('solutions')} className="w-full sm:w-auto px-8 py-4 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-semibold transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-500/25">
+              <button onClick={() => scrollTo('solutions')} className="w-full sm:w-auto px-8 py-4 rounded-full bg-blue-700 hover:bg-blue-800 text-white font-semibold transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-500/25">
                 事業内容を見る
                 <ChevronRight className="w-4 h-4" />
               </button>
-              <button onClick={() => scrollTo('contact')} className="w-full sm:w-auto px-8 py-4 rounded-full bg-white hover:bg-slate-50 border border-slate-200 text-slate-600 font-medium transition-all flex items-center justify-center gap-2 shadow-sm">
+              <button onClick={() => scrollTo('contact')} className="w-full sm:w-auto px-8 py-4 rounded-full bg-white hover:bg-slate-100 border border-slate-300 text-slate-800 font-medium transition-all flex items-center justify-center gap-2 shadow-sm">
                 お問い合わせ
               </button>
             </div>

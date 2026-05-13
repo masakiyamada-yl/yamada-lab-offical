@@ -92,7 +92,7 @@ export default function PrivacyPolicy() {
             <p className="mb-3 text-slate-600">
               当社は、Google LLC が CDPA に基づき講ずべき措置を継続的に実施しているかについて、年1回以上確認を行い、問題が確認された場合は適切な対応を講じます。
             </p>
-            <p className="mt-4 text-xs text-slate-400">
+            <p className="mt-4 text-xs text-slate-600">
               ※ 本条の記載は暫定版です。当社は今後、法令およびガイドラインの要求に基づき、本ポリシーの包括的な改定を予定しています。
             </p>
           </section>
