@@ -15,7 +15,7 @@
 
 import { spawn } from 'node:child_process';
 import { setTimeout as sleep } from 'node:timers/promises';
-import { mkdirSync } from 'node:fs';
+import { mkdirSync, writeFileSync } from 'node:fs';
 
 const HOST = '127.0.0.1';
 const PORT = 4173;
@@ -50,24 +50,50 @@ async function waitForReady(server) {
   throw new Error(`vite preview did not become ready within ${MAX_WAIT_MS}ms`);
 }
 
-/** axe をターゲット URL 群に対して実行（詳細 JSON も保存） */
+/** axe をターゲット URL 群に対して実行。
+ *  通常 reporter は STDERR にミラーしながら、STDOUT は capture して JSON を保存する。
+ *  `--stdout` フラグで axe の出力を STDOUT に切り替え、自前で reports/ に書き出す。
+ */
 function runAxe() {
   return new Promise((resolve) => {
     const urls = PATHS.map((p) => `${BASE}${p}`);
     mkdirSync('reports', { recursive: true });
-    const args = [
+
+    // 1 回目: 通常 reporter を inherit して CI ログにレポートを残す（fail でも続行）
+    const human = spawn('npx', [
       '@axe-core/cli',
       ...urls,
-      '--exit',
       '--tags', 'wcag2a,wcag2aa,wcag21a,wcag21aa',
-      '--save', 'reports/axe-results.json',
-      '--dir', 'reports',
-    ];
-    const proc = spawn('npx', args, { stdio: 'inherit', env: process.env });
-    proc.on('exit', (code) => resolve(code ?? 1));
-    proc.on('error', (err) => {
-      console.error('[run-axe] failed to spawn axe:', err.message);
-      resolve(1);
+    ], { stdio: 'inherit', env: process.env });
+
+    human.on('error', (err) => {
+      console.error('[run-axe] failed to spawn axe (human):', err.message);
+      return resolve(1);
+    });
+
+    human.on('exit', () => {
+      // 2 回目: --stdout で JSON を capture して reports/axe-results.json に保存
+      const json = spawn('npx', [
+        '@axe-core/cli',
+        ...urls,
+        '--tags', 'wcag2a,wcag2aa,wcag21a,wcag21aa',
+        '--exit',
+        '--stdout',
+      ], { stdio: ['ignore', 'pipe', 'inherit'], env: process.env });
+      let captured = '';
+      json.stdout.on('data', (d) => { captured += d.toString(); });
+      json.on('exit', (code) => {
+        try {
+          writeFileSync('reports/axe-results.json', captured || '[]', 'utf8');
+        } catch (e) {
+          console.error('[run-axe] failed to write axe-results.json:', e.message);
+        }
+        resolve(code ?? 1);
+      });
+      json.on('error', (err) => {
+        console.error('[run-axe] failed to spawn axe (json):', err.message);
+        resolve(1);
+      });
     });
   });
 }
