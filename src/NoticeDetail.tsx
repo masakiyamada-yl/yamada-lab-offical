@@ -158,6 +158,14 @@ export default function NoticeDetail() {
           </ol>
         </nav>
 
+        {/* status announcement for screen readers */}
+        <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+          {loadError && "障害情報の読み込みに失敗しました"}
+          {notFound && "指定された障害情報は存在しません"}
+          {incident && `障害情報「${incident.title}」を読み込みました。状態: ${incident.status}`}
+          {!incident && !loadError && !notFound && "障害情報を読み込み中"}
+        </div>
+
         {/* Error state */}
         {loadError && (
           <div className="rounded-2xl bg-red-50 border border-red-200 p-8 text-center space-y-3">

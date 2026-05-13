@@ -167,6 +167,7 @@ export default function App() {
             <button onClick={() => scrollTo('strengths')} className="hover:text-blue-600 transition-colors">特長</button>
             <button onClick={() => scrollTo('solutions')} className="hover:text-blue-600 transition-colors">事業内容</button>
             <button onClick={() => scrollTo('company')} className="hover:text-blue-600 transition-colors">会社概要</button>
+            <Link to="/notice" className="hover:text-blue-600 transition-colors">障害情報</Link>
             <button onClick={() => scrollTo('contact')} className="px-5 py-2.5 rounded-full bg-blue-50 text-blue-600 border border-blue-200 hover:bg-blue-100 transition-all">お問い合わせ</button>
           </div>
           <button className="md:hidden text-slate-700" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label={mobileMenuOpen ? "メニューを閉じる" : "メニューを開く"}>
@@ -179,6 +180,7 @@ export default function App() {
               <button onClick={() => { setMobileMenuOpen(false); scrollTo('strengths'); }} className="py-2 text-left hover:text-blue-600 transition-colors">特長</button>
               <button onClick={() => { setMobileMenuOpen(false); scrollTo('solutions'); }} className="py-2 text-left hover:text-blue-600 transition-colors">事業内容</button>
               <button onClick={() => { setMobileMenuOpen(false); scrollTo('company'); }} className="py-2 text-left hover:text-blue-600 transition-colors">会社概要</button>
+              <Link to="/notice" onClick={() => setMobileMenuOpen(false)} className="py-2 text-left hover:text-blue-600 transition-colors">障害情報</Link>
               <button onClick={() => { setMobileMenuOpen(false); scrollTo('contact'); }} className="py-2 text-left text-blue-600">お問い合わせ</button>
             </div>
           </div>

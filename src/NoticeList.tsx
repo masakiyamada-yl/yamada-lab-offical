@@ -105,19 +105,27 @@ export default function NoticeList() {
         <h1 className="text-3xl md:text-4xl font-bold mb-2 text-slate-900">障害情報</h1>
         <p className="text-sm text-slate-500 mb-10">山田ラボのサービスに関する障害・メンテナンス情報を掲載しています。</p>
 
-        {/* エラー */}
+        {/* status messages (aria-live で SR にも変化通知) */}
+        <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+          {error && "障害情報の読み込みに失敗しました"}
+          {!error && incidents === null && "障害情報を読み込み中"}
+          {!error && incidents !== null && incidents.length === 0 && "現在公開中の障害情報はありません"}
+          {!error && incidents !== null && incidents.length > 0 && `${incidents.length} 件の障害情報が読み込まれました`}
+        </div>
+
+        {/* エラー (視覚) */}
         {error && (
           <p className="text-slate-600 text-sm">
             障害情報の読み込みに失敗しました。時間を置いて再度お試しください。
           </p>
         )}
 
-        {/* ローディング */}
+        {/* ローディング (視覚) */}
         {!error && incidents === null && (
-          <p className="text-slate-400 text-sm">読み込み中...</p>
+          <p className="text-slate-400 text-sm" aria-hidden="true">読み込み中...</p>
         )}
 
-        {/* 空状態 */}
+        {/* 空状態 (視覚) */}
         {!error && incidents !== null && incidents.length === 0 && (
           <p className="text-slate-600 text-sm">現在公開中の障害情報はありません。</p>
         )}
