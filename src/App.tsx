@@ -189,7 +189,6 @@ export default function App() {
 
       {/* Hero */}
       <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden bg-gradient-to-b from-blue-50 to-white">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-100 rounded-full blur-[140px] pointer-events-none" />
         <div className="max-w-4xl mx-auto px-6 md:px-12 relative z-10 text-center">
           <div style={{ opacity: heroVisible ? 1 : 0, transform: heroVisible ? "translateY(0)" : "translateY(30px)", transition: "opacity 0.8s ease-out, transform 0.8s ease-out" }}>
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-sm font-medium mb-8">
@@ -197,7 +196,7 @@ export default function App() {
               セキュアなネットワーク・認証ソリューション
             </div>
             <h1 className="text-3xl sm:text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight text-slate-900">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400">ネットワーク</span>で、<br />
+              <span className="text-blue-700">ネットワーク</span>で、<br />
               ビジネスの未来を拓く。
             </h1>
             <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto mb-12 leading-relaxed">
@@ -292,7 +291,6 @@ export default function App() {
 
       {/* Contact */}
       <section id="contact" className="py-24 border-t border-slate-200 relative overflow-hidden bg-white">
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-50 rounded-full blur-[120px] pointer-events-none" />
         <div className="max-w-4xl mx-auto px-6 md:px-12 relative z-10">
           <div
             ref={contact.ref}

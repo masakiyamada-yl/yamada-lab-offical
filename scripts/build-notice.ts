@@ -67,7 +67,28 @@ interface Incident {
 // 各 pattern は description で fail メッセージに利用される。
 // メールは「yamada-lab.co.jp 以外」のみ拒否（社内代表アドレスは記載許容）。
 
-const SECRET_PATTERNS: { name: string; pattern: RegExp }[] = [
+// SECRET_PATTERNS は generic な汎用パターンのみソースで保持する。
+// 内部命名規則 (service 名・社内 channel 等) は PUBLIC リポでの語彙列挙それ自体が
+// 内部規約を漏らすため、`.secret-patterns.json` から override で読み込む（PRIVATE 配布）。
+// 仕組み:
+//   1. ソース既定 = DEFAULT_PATTERNS (汎用、語彙列挙なし)
+//   2. SECRET_PATTERNS_FILE 環境変数 (default: `.secret-patterns.json`) を見て
+//      存在すれば追加パターンを merge する
+//   3. JSON 形式: [{ "name": "...", "pattern": "regex string", "flags": "i" }]
+//
+// 参考: audit #012 (2026-05-14) / feedback_public_repo_threat_model.md
+
+interface SecretPatternEntry {
+  name: string;
+  pattern: RegExp;
+}
+interface SecretPatternJson {
+  name: string;
+  pattern: string;
+  flags?: string;
+}
+
+const DEFAULT_PATTERNS: SecretPatternEntry[] = [
   {
     name: '外部メールアドレス (yamada-lab.co.jp 以外)',
     pattern: /[A-Za-z0-9._%+-]+@(?!yamada-lab\.co\.jp\b)[A-Za-z0-9.-]+\.[A-Za-z]{2,}/,
@@ -81,14 +102,6 @@ const SECRET_PATTERNS: { name: string; pattern: RegExp }[] = [
     pattern: /\b(10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.)/,
   },
   {
-    name: '内部 service / VM 名',
-    pattern: /\b(noc-web|cityroam-proxy-|rp-client-|rp-jphub-)/,
-  },
-  {
-    name: '社内 Slack channel',
-    pattern: /#(ai-|cityroam-)/,
-  },
-  {
     name: 'Google API key',
     pattern: /AIza[0-9A-Za-z_-]{35}/,
   },
@@ -100,6 +113,31 @@ const SECRET_PATTERNS: { name: string; pattern: RegExp }[] = [
     name: 'password 直書き',
     pattern: /password\s*[:=]/i,
   },
+];
+
+function loadOverridePatterns(): SecretPatternEntry[] {
+  const filePath = process.env.SECRET_PATTERNS_FILE
+    || path.resolve(process.cwd(), '.secret-patterns.json');
+  if (!fs.existsSync(filePath)) return [];
+  try {
+    const raw = JSON.parse(fs.readFileSync(filePath, 'utf8')) as SecretPatternJson[];
+    if (!Array.isArray(raw)) {
+      console.warn(`[build-notice] ${filePath}: top-level must be an array, ignoring`);
+      return [];
+    }
+    return raw.map((e) => ({
+      name: e.name,
+      pattern: new RegExp(e.pattern, e.flags ?? ''),
+    }));
+  } catch (err) {
+    console.warn(`[build-notice] failed to parse ${filePath}: ${(err as Error).message}, ignoring`);
+    return [];
+  }
+}
+
+const SECRET_PATTERNS: SecretPatternEntry[] = [
+  ...DEFAULT_PATTERNS,
+  ...loadOverridePatterns(),
 ];
 
 // --- 検証ロジック ---------------------------------------------------------
