@@ -1,20 +1,35 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# 山田ラボ合同会社 コーポレートサイト
 
-# Run and deploy your AI Studio app
+[山田ラボ合同会社（Yamada Lab LLC）](https://www.yamada-lab.co.jp/) のコーポレートサイト。
 
-This contains everything you need to run your app locally.
+## 技術スタック
 
-View your app in AI Studio: https://ai.studio/apps/e7c6f36c-0398-44d0-8538-7b0a9840faa5
+- React 19 + Vite 6
+- TypeScript 5
+- Tailwind CSS 4
+- React Router 7（HashRouter）
+- GitHub Pages デプロイ + Cloudflare CDN
 
-## Run Locally
+## ローカル開発
 
-**Prerequisites:**  Node.js
+```sh
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # 本番ビルド (dist/)
+npm run preview  # 本番ビルドの確認
+npm run lint     # tsc --noEmit
+npm run accessibility:check  # axe-core (要 Chrome)
+```
 
+## ディレクトリ構成
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+```
+src/                React コンポーネント (App / NoticeList / NoticeDetail / PrivacyPolicy)
+content/notice/     障害情報 YAML (build 時に静的生成)
+scripts/            ビルドスクリプト (build-notice / run-axe)
+public/             静的アセット
+```
+
+## ライセンス
+
+Copyright © 山田ラボ合同会社 All Rights Reserved.
