@@ -7,28 +7,33 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
+  id-token: write   # WIF OIDC token 発行に必須
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout your repository using git
+      - name: Checkout
         uses: actions/checkout@v4
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
+
       - name: Install dependencies
         run: npm install
+
       - name: Build
         run: npm run build
+
       - name: Sync Chrome / ChromeDriver versions (for axe)
         run: npx -y browser-driver-manager@latest install chrome
+
       - name: Accessibility check (axe-core)
         run: npm run accessibility:check
         continue-on-error: true
+
       - name: Upload accessibility report
         if: always()
         uses: actions/upload-artifact@v4
@@ -36,24 +41,47 @@ jobs:
           name: axe-results
           path: reports/axe-results.json
           if-no-files-found: warn
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      # ---- GCP 認証 (WIF) ----
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v3
+        with:
+          workload_identity_provider: ${{ vars.GCP_WIF_PROVIDER }}
+          service_account: ${{ vars.GCP_DEPLOY_SA }}
+
+      - name: Set up gcloud
+        uses: google-github-actions/setup-gcloud@v2
+
+      # ---- Docker image build & push to Artifact Registry ----
+      - name: Configure docker for Artifact Registry
+        run: gcloud auth configure-docker asia-northeast1-docker.pkg.dev --quiet
+
+      - name: Build and push image
+        id: image
+        run: |
+          IMAGE="asia-northeast1-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/yamada-lab-offical/www:${{ github.sha }}"
+          docker build -t "$IMAGE" .
+          docker push "$IMAGE"
+          echo "image=$IMAGE" >> "$GITHUB_OUTPUT"
+
+      # ---- Cloud Run deploy ----
+      - name: Deploy to Cloud Run
+        uses: google-github-actions/deploy-cloudrun@v3
+        with:
+          service: yamada-lab-offical-www
+          region: asia-northeast1
+          image: ${{ steps.image.outputs.image }}
+          flags: |
+            --min-instances=0
+            --max-instances=10
+            --cpu=1
+            --memory=256Mi
+            --allow-unauthenticated
+            --service-account=${{ vars.GCP_RUNTIME_SA }}
+            --port=8080
 
   notify-slack-on-failure:
-    needs: [build, deploy]
+    needs: [build-and-deploy]
     if: ${{ failure() }}
     runs-on: ubuntu-latest
     steps:
