@@ -6,7 +6,7 @@
  * `public/notice/incidents.json` および `public/notice/feed.xml` (Atom 1.0) を生成する。
  * (vite が public/* を dist/* に copy through するため、dev/prod 双方で動く)
  *
- * 設計書: docs/notice-page-design-v0.1.md §4 / §7
+ * 設計書: 社内設計書に基づく
  * 実行: `tsx scripts/build-notice.ts` （npm run prebuild から呼ぶ前提）
  *
  * REQUIRES: npm i -D yaml tsx
@@ -68,15 +68,14 @@ interface Incident {
 // メールは「yamada-lab.co.jp 以外」のみ拒否（社内代表アドレスは記載許容）。
 
 // SECRET_PATTERNS は generic な汎用パターンのみソースで保持する。
-// 内部命名規則 (service 名・社内 channel 等) は PUBLIC リポでの語彙列挙それ自体が
-// 内部規約を漏らすため、`.secret-patterns.json` から override で読み込む（PRIVATE 配布）。
+// 内部命名規則は override 経由で読み込む。
 // 仕組み:
 //   1. ソース既定 = DEFAULT_PATTERNS (汎用、語彙列挙なし)
 //   2. SECRET_PATTERNS_FILE 環境変数 (default: `.secret-patterns.json`) を見て
 //      存在すれば追加パターンを merge する
 //   3. JSON 形式: [{ "name": "...", "pattern": "regex string", "flags": "i" }]
 //
-// 参考: audit #012 (2026-05-14) / feedback_public_repo_threat_model.md
+// 参考: 社内監査由来の threat model
 
 interface SecretPatternEntry {
   name: string;

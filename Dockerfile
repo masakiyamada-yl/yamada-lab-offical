@@ -1,7 +1,7 @@
 # yamada-lab-offical コーポレートサイト Docker image
 # - Stage 1: Vite + tsx で静的サイトをビルド (dist/)
 # - Stage 2: Nginx で静的配信、Cloud Run の PORT env を受ける
-# 設計: governance/docs/operations/offical-cloud-run-migration-v0.3.md §2.3
+# 設計: 社内運用設計に基づく Cloud Run 構成
 
 # ---- Stage 1: build ----
 FROM node:20-alpine AS build
