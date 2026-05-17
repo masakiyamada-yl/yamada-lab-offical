@@ -37,5 +37,6 @@ resource "google_cloud_run_domain_mapping" "www" {
 
 import {
   to = google_cloud_run_domain_mapping.www
-  id = "${var.project_id}/${var.region}/${var.public_hostname}"
+  # provider doc に従い locations/{location}/namespaces/{project}/domainmappings/{name} 形式
+  id = "locations/${var.region}/namespaces/${var.project_id}/domainmappings/${var.public_hostname}"
 }
