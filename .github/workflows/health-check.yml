@@ -1,0 +1,61 @@
+name: Public endpoint health check
+
+# 公開 endpoint (https://www.yamada-lab.co.jp/) の定期 health check。
+# 6 時間ごとに HTTP 200 を確認し、失敗時は Slack 通知 + workflow failure。
+# audit #023 (2026-05-17) で発覚した「ci.yml success だが本番 404」事象の再発検知層。
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # 6 時間ごと
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check https://www.yamada-lab.co.jp/
+        run: |
+          # 200 を 5 回中 1 回でも観測すれば OK (一過性の Cloudflare/CDN edge 不安定を許容)
+          for i in 1 2 3 4 5; do
+            START=$(date +%s%3N)
+            CODE=$(curl -sI --max-time 15 -o /dev/null -w "%{http_code}" https://www.yamada-lab.co.jp/ || echo 000)
+            END=$(date +%s%3N)
+            echo "attempt $i: HTTP=${CODE} elapsed=$((END - START))ms"
+            if [ "$CODE" = "200" ]; then
+              echo "✅ healthy"
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "::error::https://www.yamada-lab.co.jp/ は連続 5 回 200 を返しませんでした (最終: $CODE)"
+          echo "::error::確認ポイント: Cloud Run service 稼働 / domain mapping / Cloudflare DNS / cert provisioning"
+          exit 1
+
+      - name: Check Cloud Run direct URL (origin layer)
+        run: |
+          # DNS/Cloudflare 障害を切り分けるため、Cloud Run direct URL も確認
+          CODE=$(curl -sI --max-time 15 -o /dev/null -w "%{http_code}" \
+            https://yamada-lab-offical-www-972787179971.asia-northeast1.run.app/ || echo 000)
+          echo "Cloud Run direct: HTTP=${CODE}"
+          if [ "$CODE" != "200" ]; then
+            echo "::warning::Cloud Run direct URL も 200 を返していません (origin layer 障害の可能性)"
+          fi
+
+  notify-slack-on-failure:
+    needs: [health-check]
+    if: ${{ failure() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post Slack notification
+        uses: slackapi/slack-github-action@v2.1.0
+        with:
+          method: chat.postMessage
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          payload: |
+            channel: "${{ vars.SLACK_GITHUB_ACTIVITY_CHANNEL }}"
+            text: ":rotating_light: *health-check failed* — https://www.yamada-lab.co.jp/ is not returning 200. <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|view run #${{ github.run_number }}>"
