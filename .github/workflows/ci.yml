@@ -80,6 +80,53 @@ jobs:
             --service-account=${{ vars.GCP_RUNTIME_SA }}
             --port=8080
 
+      # ---- 改善 2: allUsers run.invoker IAM 設定を明示 (audit #023 起因) ----
+      # deploy-cloudrun action の --allow-unauthenticated は Org policy
+      # iam.allowedPolicyMemberDomains で reject されても warning なく成功扱いになる。
+      # 明示的に bind して失敗時に workflow failure を返す。
+      - name: Ensure allUsers run.invoker (explicit IAM binding)
+        run: |
+          if gcloud run services add-iam-policy-binding yamada-lab-offical-www \
+              --member=allUsers --role=roles/run.invoker \
+              --region=asia-northeast1 --project=${{ vars.GCP_PROJECT_ID }} \
+              --quiet 2>&1 | tee /tmp/iam.log; then
+            echo "✅ allUsers run.invoker bound"
+          else
+            echo "::error::Failed to bind allUsers run.invoker. Check Org policy iam.allowedPolicyMemberDomains."
+            cat /tmp/iam.log
+            exit 1
+          fi
+
+      # ---- 改善 1: Cloud Run direct E2E smoke test (audit #023 起因) ----
+      - name: Smoke test (Cloud Run direct URL)
+        run: |
+          URL=$(gcloud run services describe yamada-lab-offical-www \
+            --region=asia-northeast1 --project=${{ vars.GCP_PROJECT_ID }} \
+            --format='value(status.url)')
+          echo "Cloud Run URL: ${URL}"
+          if curl -fsS --max-time 30 "${URL}/" -o /tmp/smoke.html; then
+            echo "✅ Cloud Run direct smoke test passed ($(wc -c < /tmp/smoke.html) bytes)"
+          else
+            echo "::error::Cloud Run direct smoke test failed"
+            exit 1
+          fi
+
+      # ---- 改善 1b: 公開 endpoint smoke test (DNS が Cloud Run を指している前提) ----
+      # 失敗時は domain mapping or Cloudflare DNS 設定問題の可能性を Slack に通知
+      - name: Smoke test (public endpoint www.yamada-lab.co.jp)
+        run: |
+          for i in 1 2 3 4 5; do
+            CODE=$(curl -sI --max-time 15 -o /dev/null -w "%{http_code}" https://www.yamada-lab.co.jp/ || echo 000)
+            echo "attempt $i: HTTP $CODE"
+            if [ "$CODE" = "200" ]; then
+              echo "✅ public endpoint smoke test passed"
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "::error::public endpoint smoke test failed (https://www.yamada-lab.co.jp/ is not returning 200). Check Cloud Run domain mapping and Cloudflare DNS (audit #023 runbook)."
+          exit 1
+
   notify-slack-on-failure:
     needs: [build-and-deploy]
     if: ${{ failure() }}
