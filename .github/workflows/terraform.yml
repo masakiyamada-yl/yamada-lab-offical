@@ -1,0 +1,67 @@
+name: Terraform CD
+
+# yamada-lab-offical 用 Terraform CD。
+# audit #023 改善 3: Cloud Run domain mapping + IAM binding を IaC 化。
+# Cloud Run service / image / deploy 自体は ci.yml (deploy-cloudrun action) が管理。
+#
+# trigger:
+#   - main push の terraform/ 配下変更
+#   - workflow_dispatch (手動キック)
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'terraform/**'
+      - '.github/workflows/terraform.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write  # WIF OIDC
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: terraform
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Authenticate to GCP (WIF)
+        uses: google-github-actions/auth@v3
+        with:
+          workload_identity_provider: ${{ vars.GCP_WIF_PROVIDER }}
+          service_account: ${{ vars.GCP_DEPLOY_SA }}
+
+      - name: Set up gcloud
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        run: terraform init -upgrade
+
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve tfplan
+
+  notify-slack-on-failure:
+    needs: [terraform]
+    if: ${{ failure() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post Slack notification
+        uses: slackapi/slack-github-action@v2.1.0
+        with:
+          method: chat.postMessage
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          payload: |
+            channel: "${{ vars.SLACK_GITHUB_ACTIVITY_CHANNEL }}"
+            text: ":x: *${{ github.repository }}* `${{ github.workflow }}` failed on `${{ github.ref_name }}` <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|view run #${{ github.run_number }}>"
