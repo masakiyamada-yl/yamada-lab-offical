@@ -5,3 +5,4 @@ dist
 public/notice/
 .secret-patterns.json
 reports/
+.claude/settings.local.json
